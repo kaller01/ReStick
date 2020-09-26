@@ -1,32 +1,52 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <button v-google-signin-button="clientId" class="google-signin-button">
+      Continue with Google
+    </button>
+    <img :src="url" alt="" />
   </div>
 </template>
 
+<script>
+const axios = require("axios");
+import GoogleSignInButton from "vue-google-signin-button-directive";
+export default {
+  directives: {
+    GoogleSignInButton,
+  },
+  data: () => ({
+    clientId:
+      "256693553552-01bl6ulv29bolub2l5pgna5jovkd84pl.apps.googleusercontent.com",
+    url: "",
+  }),
+  methods: {
+    OnGoogleAuthSuccess(idToken) {
+      // Receive the idToken and make your magic with the backend
+      console.log(idToken);
+      axios
+        .post("http://localhost:3000/auth/google/", {
+          idToken,
+        })
+        .then((response) => {
+          console.log(response);
+          this.url = response.data.picture;
+        });
+    },
+    OnGoogleAuthFail(error) {
+      console.log(error);
+    },
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.google-signin-button {
+  color: white;
+  background-color: red;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 20px 25px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
