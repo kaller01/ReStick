@@ -1,9 +1,10 @@
 const passport = require("passport");
 const GoogleStratergy = require("passport-google-oauth20");
+const keys = require("./secret-keys");
 
 passport.use(new GoogleStratergy({
-    clientID: '256693553552-p1nqj62a14e05e2gl37sa94r3vqig5p4.apps.googleusercontent.com',
-    clientSecret: 'VgMfWf5qVFpo2gkphZQv40Vj'
+    clientID: keys.google.clientID, 
+    clientSecret: keys.google.clientSecret
 }), ()=>{
     //passport callback function
 })
