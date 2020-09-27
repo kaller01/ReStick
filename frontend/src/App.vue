@@ -3,6 +3,9 @@
     <button v-google-signin-button="clientId" class="google-signin-button">
       Continue with Google
     </button>
+    <button v-on:click="testToken()">
+      Test
+    </button>
     <img :src="url" alt="" />
   </div>
 </template>
@@ -28,13 +31,20 @@ export default {
           idToken,
         })
         .then((response) => {
-          console.log(response);
-          this.url = response.data.picture;
+            axios.defaults.headers.common['Authorization'] = response.data;
+            this.url = response.data.picture;
+            localStorage.auth = response.data;
         });
+        //todo handle errors, 401
     },
     OnGoogleAuthFail(error) {
       console.log(error);
     },
+    testToken(){
+      axios.post("http://localhost:3000/auth/google/test").then((response)=>{
+        console.log('hmmm')
+      });
+    }
   },
 };
 </script>
