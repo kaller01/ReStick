@@ -6,7 +6,13 @@
     <button v-on:click="testToken()">
       Test
     </button>
-    <img :src="url" alt="" />
+    <button v-on:click="getUsers()">
+      get users
+    </button>
+    <div v-for="user in users">
+      <img :src="user.picture"/>
+      <p>{{user.username}}</p>
+    </div>
   </div>
 </template>
 
@@ -21,11 +27,11 @@ export default {
     clientId:
       "256693553552-01bl6ulv29bolub2l5pgna5jovkd84pl.apps.googleusercontent.com",
     url: "",
+    users: []
   }),
   methods: {
     OnGoogleAuthSuccess(idToken) {
       // Receive the idToken and make your magic with the backend
-      console.log(idToken);
       axios
         .post("http://localhost:3000/auth/google/", {
           idToken,
@@ -42,10 +48,19 @@ export default {
     },
     testToken(){
       axios.post("http://localhost:3000/auth/google/test").then((response)=>{
-        console.log('hmmm')
+        console.log(response.data);
       });
+    },
+    getUsers(){
+      axios.get("http://localhost:3000/api/user").then((response)=>{
+        this.users = response.data;
+      })
     }
   },
+  created(){
+   this.testToken();
+   console.log("LMAO")
+  }
 };
 </script>
 

@@ -4,6 +4,7 @@ const googleVerifier = require('google-id-token-verifier');
 const jwt = require('jsonwebtoken');
 const keys = require("../config/secret-keys");
 const User = require('../models/User')
+const rug = require('random-username-generator');
 
 
 //Auth with google
@@ -14,6 +15,7 @@ router.post('/google', (req, res) => {
             let user = await User.findOne({googleID: tokenInfo.sub});
             if(!user){
                 user = new User({
+                    username: rug.generate(),
                     googleID: tokenInfo.sub,
                     picture: tokenInfo.picture,
                     name: tokenInfo.name
@@ -22,7 +24,7 @@ router.post('/google', (req, res) => {
             }
             console.log(user)
             const id = user._id;
-            const token = jwt.sign({id}, keys.jwt);
+            const token = jwt.sign({id, user: user.username}, keys.jwt);
             res.send(token);
         }
     })
@@ -32,7 +34,7 @@ router.post('/google/test', (req, res) => {
     jwt.verify(req.headers.authorization, keys.jwt, (err, decoded)=>{
         if(!err){
             console.log(decoded)
-            res.sendStatus(200);
+            res.send(decoded);
         } else {
             res.sendStatus(401);
             console.log('Forbidden')

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const findOrCreate = require('mongoose-find-or-create')
 
 const UserSchema = mongoose.Schema({
+    username: String,
     googleID: {
         type: Number,
         required: true,
@@ -10,7 +11,6 @@ const UserSchema = mongoose.Schema({
     },
     picture: {
         type: String,
-        required: true
     },
     name: String
 })

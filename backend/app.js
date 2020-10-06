@@ -3,6 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./config/mongoose-setup')
+const auth = require('./auth/index.js');
 
 var apiRouter = require('./routes/api');
 var vueRouter = require('./routes/vue');
@@ -18,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', apiRouter);
+app.use('/api', auth, apiRouter);
 app.use('/', vueRouter);
 app.use('/auth', authRouter);
 
@@ -38,5 +39,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   //res.render('error');
 });
+
+
+
 
 module.exports = app;
