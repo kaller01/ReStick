@@ -19,6 +19,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//cors fix
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
 app.use('/api', auth, apiRouter);
 app.use('/', vueRouter);
 app.use('/auth', authRouter);
@@ -39,6 +47,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   //res.render('error');
 });
+
 
 
 

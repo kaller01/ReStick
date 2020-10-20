@@ -1,17 +1,20 @@
 const jwt = require('jsonwebtoken');
 const keys = require("../config/secret-keys");
+const User = require('../models/User')
 
 function auth(req,res,next){
-    console.log(req)
-    jwt.verify(req.headers.authorization, keys.jwt, (err, decoded)=>{
+    jwt.verify(req.headers.authorization, keys.jwt, async(err, decoded)=>{
       if(!err){
-          console.log(decoded)
-          req.user = decoded;
-          next();
-          console.log('Auth verified')
+          let user = await User.findById(decoded.id);
+          if(user){
+            req.user = user;
+            console.log(user);
+            next();
+          } else {
+            res.sendStatus(401);
+          }
       } else {
           res.sendStatus(401);
-          console.log('Forbidden')
       }
   })
 }

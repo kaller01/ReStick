@@ -1,33 +1,38 @@
 <template>
   <div>
-    <button v-google-signin-button="clientId" class="google-signin-button">
+    <v-btn v-google-signin-button="clientId" class="google-signin-button">
       Continue with Google
-    </button>
-    <button v-on:click="testToken()">
-      Test
-    </button>
-    <button v-on:click="getUsers()">
-      get users
-    </button>
-    <div v-for="user in users">
-      <img :src="user.picture"/>
-      <p>{{user.username}}</p>
+    </v-btn>
+    <v-btn @click="testToken()">
+      Refresh
+    </v-btn>
+    <v-btn v-on:click="randomize()">
+      Random username
+    </v-btn>
+    <div>
+      <img :src="user.picture" alt="" />
+      <h1>{{ user.username }}</h1>
     </div>
   </div>
 </template>
 
 <script>
 const axios = require("axios");
+import { mapState } from "vuex";
+
 import GoogleSignInButton from "vue-google-signin-button-directive";
 export default {
   directives: {
     GoogleSignInButton,
   },
+  computed: {
+    ...mapState(["user"]),
+  },
   data: () => ({
     clientId:
       "256693553552-01bl6ulv29bolub2l5pgna5jovkd84pl.apps.googleusercontent.com",
     url: "",
-    users: []
+    users: [],
   }),
   methods: {
     OnGoogleAuthSuccess(idToken) {
@@ -37,30 +42,30 @@ export default {
           idToken,
         })
         .then((response) => {
-            axios.defaults.headers.common['Authorization'] = response.data;
-            this.url = response.data.picture;
-            localStorage.auth = response.data;
+          axios.defaults.headers.common["Authorization"] = response.data;
+          this.url = response.data.picture;
+          localStorage.auth = response.data;
         });
-        //todo handle errors, 401
+      //todo handle errors, 401
     },
     OnGoogleAuthFail(error) {
       console.log(error);
     },
-    testToken(){
-      axios.post("http://localhost:3000/auth/google/test").then((response)=>{
-        console.log(response.data);
-      });
+    testToken() {
+      this.$store.dispatch('getUser');
     },
-    getUsers(){
-      axios.get("http://localhost:3000/api/user").then((response)=>{
-        this.users = response.data;
-      })
-    }
+    randomize() {
+      axios
+        .get("http://localhost:3000/api/user/randomize")
+        .then((response) => {
+          this.$store.dispatch('getUser');
+        });
+    },
   },
-  created(){
-   this.testToken();
-   console.log("LMAO")
-  }
+  created() {
+    //  this.testToken();
+    //  console.log("LMAO")
+  },
 };
 </script>
 
