@@ -8,7 +8,7 @@ function auth(req,res,next){
           let user = await User.findById(decoded.id);
           if(user){
             req.user = user;
-            console.log(user);
+            console.log(user.name + " was authorized");
             next();
           } else {
             res.sendStatus(401);

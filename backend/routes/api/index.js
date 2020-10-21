@@ -1,28 +1,22 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const User = require('../../models/User')
-const rug = require('random-username-generator');
+const User = require("../../models/User");
+const userController = require("../../controllers/userController");
+const stackRouter = require("./stack");
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send("lamoooo");
+router.use('/stacks', stackRouter);
+
+router.get("/users", async (req, res) => {
+  let user = await User.find();
+  res.send(user);
+});
+
+router.get("/user", async (req, res) => {
+  await req.user.populate("stacks").execPopulate();
+  res.send(req.user);
 });
 
 
-router.get('/users', async(req,res)=>{
-  let user = await User.find();
-  res.send(user);
-})
-
-router.get('/user', async(req,res)=>{
-  let user = await User.findById(req.user.id)
-  res.send({user})
-})
-
-router.get('/user/randomize', async(req,res)=>{
-  req.user.username = rug.generate();
-  req.user.save();
-  res.sendStatus(200) 
-})
+router.get("/user/randomize", userController.randomizeUsername);
 
 module.exports = router;

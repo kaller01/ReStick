@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const findOrCreate = require('mongoose-find-or-create')
+require('./Stack')
 
 const UserSchema = mongoose.Schema({
     username: String,
@@ -12,8 +12,11 @@ const UserSchema = mongoose.Schema({
     picture: {
         type: String,
     },
-    name: String
+    name: String,
+    stacks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'stacks'
+    }]
 })
 
-UserSchema.plugin(findOrCreate);
 module.exports = mongoose.model('Users', UserSchema)
