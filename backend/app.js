@@ -3,7 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./config/mongoose-setup')
-const auth = require('./auth/index.js');
+const auth = require('./routes/middleware/auth.js');
 
 var apiRouter = require('./routes/api');
 var vueRouter = require('./routes/vue');

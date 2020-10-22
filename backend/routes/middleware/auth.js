@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const keys = require("../config/secret-keys");
-const User = require('../models/User')
+const keys = require("../../config/secret-keys");
+const User = require('../../models/User')
 
 function auth(req,res,next){
     jwt.verify(req.headers.authorization, keys.jwt, async(err, decoded)=>{

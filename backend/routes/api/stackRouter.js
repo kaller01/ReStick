@@ -1,27 +1,27 @@
-const StackController = require("../../controllers/StackController");
+const stack = require("../../controllers/StackController");
 const CardController = require("../../controllers/CardController");
 const userController = require("../../controllers/userController");
 var express = require("express");
 var router = express.Router();
 
-router.route("/").get(StackController.getStacks).post(StackController.newStack);
+router.route("/").get(stack.getStacks).post(stack.newStack);
 
 router
   .route("/:stackId")
-  .get(StackController.findStack, StackController.getStack)
-  .post(StackController.findStack, CardController.newCard)
-  .put(StackController.findStack, StackController.updateStack)
+  .get(stack.sendIfPublic, stack.continueIfAccess, stack.getStack)
+  .post(stack.continueIfAccess, CardController.newCard)
+  .put(stack.continueIfAccess, stack.updateStack)
   .delete(userController.leaveStack);
 
 router
   .route("/:stackId/:cardId")
   .delete(
-    StackController.findStack,
+    stack.continueIfAccess,
     CardController.findCard,
     CardController.deleteCard
   )
   .put(
-    StackController.findStack,
+    stack.continueIfAccess,
     CardController.findCard,
     CardController.updateCard
   );

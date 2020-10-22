@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const keys = require("../config/secret-keys");
 const User = require('../models/User')
 const rug = require('random-username-generator');
-const auth = require('../auth/index.js');
+const auth = require('./middleware/auth.js');
 
 
 //Auth with google

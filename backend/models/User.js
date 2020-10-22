@@ -16,6 +16,10 @@ const UserSchema = mongoose.Schema({
     stacks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'stacks'
+    }],
+    subs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'stacks'
     }]
 })
 

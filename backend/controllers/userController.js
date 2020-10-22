@@ -17,4 +17,28 @@ module.exports = {
       res.sendStatus(200);
     } else res.sendStatus(404);
   },
+  getSubs: async (req, res) => {
+    await req.user
+      .populate({
+        path: "subs",
+      })
+      .execPopulate();
+    res.send(req.user.subs);
+    // req.user.subs.populate("subs").execPopulate();
+    // res.send(req.user.subs)
+  },
+  unSub: async (req, res) => {
+    const index = req.user.subs.indexOf(req.params.stackId);
+    req.user.subs.splice(index, 1);
+    if (index != -1) req.user.save();
+    res.sendStatus(200);
+  },
+  sub: async (req, res) => {
+    if (req.user.subs.includes(req.params.stackId)) res.sendStatus(201);
+    else {
+      req.user.subs.push(req.stack);
+      req.user.save();
+      res.sendStatus(201);
+    }
+  },
 };

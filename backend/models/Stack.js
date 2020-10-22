@@ -12,6 +12,7 @@ const StackSchema = mongoose.Schema({
   picture: {
     type: String,
   },
+  isPublic: Boolean
 });
 
 module.exports = mongoose.model("stacks", StackSchema);
