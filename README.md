@@ -6,16 +6,24 @@
 
 # API
 
-#### Stacks
-/api/stacks
+### Stacks
+**/api/stacks**
+- GET: All stacks
+- POST: Add stack
 
-GET: All stacks
-POST: Add stack
+**/api/stacks/:stackId**
+- GET: Get stack
+- POST: Add card to stack
+- PUT: Update stack
+- DELETE: Delete stack
 
-#### Stack
-/api/stacks/:stackId
+### User
+TODO
 
-GET: Get stack
-POST: Add card to stack
-PUT: Update stack
-DELETE: Delete stack
+#### Subs
+**/api/user/subs**
+- GET: Get subscriptions
+
+**api/user/subs/:stackId**
+- POST: Subscribes to stack
+- DELETE: Unsubscribes to stack
