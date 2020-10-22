@@ -6,7 +6,7 @@
 
 # API
 
-### Stacks
+## Stacks
 **/api/stacks**
 - GET: All stacks
 - POST: Add stack
@@ -17,10 +17,10 @@
 - PUT: Update stack
 - DELETE: Delete stack
 
-### User
+## User
 TODO
 
-#### Subs
+### Subs
 **/api/user/subs**
 - GET: Get subscriptions
 
