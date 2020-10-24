@@ -13,6 +13,10 @@ var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 
+
+//This will send 301 if it hasnt changed since last request
+// app.disable('etag');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,12 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //cors fix
-app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['*']);
-    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.append('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
 
 app.use('/api', auth, apiRouter);
 app.use('/', vueRouter);

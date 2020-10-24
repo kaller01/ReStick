@@ -29,6 +29,7 @@ module.exports = {
   //Sends one stack
   getStack: async (req, res) => {
     await req.stack.populate("cards").execPopulate();
+    res.status = 200;
     res.send(req.stack);
   },
   updateStack: async (req, res, next) => {
@@ -42,25 +43,26 @@ module.exports = {
     if (index != -1) {
       req.stack = await Stack.findOne(req.user.stacks[index]);
       next();
-    } else res.sendStatus(404)
+    } else res.sendStatus(404);
   },
   //If the stack is public, then send it. If not it will continue to the next method.
   sendIfPublic: async (req, res, next) => {
     const stack = await Stack.findById(req.params.stackId).populate("cards");
     if (stack.isPublic) {
+      res.status = 200;
       res.send(stack);
     } else next();
   },
   //This method is to check if a stack is Public OR the user has access to it
-  continueIfAvailable: async (req,res,next) => {
+  continueIfAvailable: async (req, res, next) => {
     const stack = await Stack.findById(req.params.stackId);
     const index = req.user.stacks.indexOf(req.params.stackId);
     if (stack.isPublic) {
       req.stack = stack;
       next();
-    } else if(index != -1){
+    } else if (index != -1) {
       req.stack = await Stack.findOne(req.user.stacks[index]);
       next();
     } else res.sendStatus(404);
-  }
+  },
 };

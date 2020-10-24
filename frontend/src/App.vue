@@ -1,82 +1,92 @@
 <template>
-  <div>
-    <v-btn v-google-signin-button="clientId" class="google-signin-button">
-      Continue with Google
-    </v-btn>
-    <v-btn @click="testToken()">
-      Refresh
-    </v-btn>
-    <v-btn v-on:click="randomize()">
-      Random username
-    </v-btn>
-    <div>
-      <img :src="user.picture" alt="" />
-      <h1>{{ user.username }}</h1>
-    </div>
-  </div>
+  <v-app>
+    <v-overlay :value="loading">
+      <v-progress-circular dark indeterminate size="128"></v-progress-circular>
+    </v-overlay>
+
+    <!-- <v-app-bar
+      absolute
+      dark
+      height="56"
+      hide-on-scroll
+      prominent
+      :color="color"
+    >
+      <v-toolbar-title>ReStack</v-toolbar-title>
+    </v-app-bar> -->
+    <!-- <div class="spacers"></div> -->
+    <v-img src="https://i.imgur.com/DZFku3D.jpg" height="100%" width="100%">
+    <v-main class="background">
+      <router-view></router-view>
+    </v-main>
+    </v-img>
+    <div class="spacers"></div>
+    <v-bottom-navigation
+      v-model="value"
+      background-color="white"
+      
+      shift
+      fixed
+    >
+      <v-btn x-large height="100%" to="/spaced">
+        <span>Spaced</span>
+
+        <v-icon>mdi-cards</v-icon>
+      </v-btn>
+
+      <v-btn x-large height="100%" to="/stacks">
+        <span>Stacks</span>
+
+        <v-icon>mdi-layers</v-icon>
+      </v-btn>
+
+      <v-btn x-large height="100%" to="/account">
+        <span>Account</span>
+
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+  </v-app>
 </template>
 
 <script>
-const axios = require("axios");
 import { mapState } from "vuex";
-
-import GoogleSignInButton from "vue-google-signin-button-directive";
 export default {
-  directives: {
-    GoogleSignInButton,
-  },
+  data: () => ({ value: 1 }),
+
   computed: {
-    ...mapState(["user"]),
-  },
-  data: () => ({
-    clientId:
-      "256693553552-01bl6ulv29bolub2l5pgna5jovkd84pl.apps.googleusercontent.com",
-    url: "",
-    users: [],
-  }),
-  methods: {
-    OnGoogleAuthSuccess(idToken) {
-      // Receive the idToken and make your magic with the backend
-      axios
-        .post("http://localhost:3000/auth/google/", {
-          idToken,
-        })
-        .then((response) => {
-          axios.defaults.headers.common["Authorization"] = response.data;
-          this.url = response.data.picture;
-          localStorage.auth = response.data;
-        });
-      //todo handle errors, 401
+    color() {
+      switch (this.value) {
+        case 2:
+          return "yellow darken-3";
+        case 1:
+          return "orange darken-3";
+        case 0:
+          return "deep-orange darken-3";
+        default:
+          return "blue-grey";
+      }
     },
-    OnGoogleAuthFail(error) {
-      console.log(error);
+    isAuthed(){
+        if(localStorage.auth){
+            return true;
+        } else return false
     },
-    testToken() {
-      this.$store.dispatch('getUser');
-    },
-    randomize() {
-      axios
-        .get("http://localhost:3000/api/user/randomize")
-        .then((response) => {
-          this.$store.dispatch('getUser');
-        });
-    },
-  },
-  created() {
-    //  this.testToken();
-    //  console.log("LMAO")
+    ...mapState(["loading"]),
   },
 };
 </script>
 
-<style>
-.google-signin-button {
-  color: white;
-  background-color: red;
-  height: 50px;
-  font-size: 16px;
-  border-radius: 10px;
-  padding: 10px 20px 25px 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+<style scoped>
+.spacers {
+  height: 56px;
+}
+
+.loader {
+background-image: linear-gradient(to bottom right, yellow, red);
+}
+
+.background {
+    /* background-image: "https://i.imgur.com/DZFku3D.jpg"; */
 }
 </style>

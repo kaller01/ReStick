@@ -16,4 +16,4 @@ new Vue({
   render: function (h) { return h(App) }
 }).$mount('#app')
 
-store.dispatch('getUser');
+// store.dispatch('getUser');
