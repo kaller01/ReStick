@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: false,
-    stacks: [{}],
+    stacks: false,
     color: "",
     loading: true,
     stack: false,
@@ -93,8 +93,8 @@ export default new Vuex.Store({
         });
       });
     },
-    getStack({ commit }, id) {
-      console.log(id);
+    getStack({ commit, state }, id) {
+      if(!id) id = state.stack._id;
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
         axios.get("http://localhost:3000/api/stacks/" + id).then((response) => {
@@ -107,7 +107,9 @@ export default new Vuex.Store({
       });
     },
     clearUser({commit}){
-      commit("SET_USER", null);
+      commit("SET_USER", false);
+      commit("SET_STACKS", false)
+      commit("SET_STACK", false)
     }
   },
   modules: {},

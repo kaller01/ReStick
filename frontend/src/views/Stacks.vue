@@ -10,109 +10,61 @@
       </v-btn>
     </v-toolbar>
     <v-container>
-          <v-row dense>
-            <v-col cols="12"> </v-col>
+      <v-row dense>
+        <v-col cols="12"> </v-col>
 
-            <v-col
-              v-for="stack in stacks"
-              :key="stack._id"
-              cols="12"
-              md="3"
-              lg="4"
-            >
-              <v-card :to="'/stack/' + stack._id" color="white">
-                <div class="d-flex flex-no-wrap justify-space-between mb-2">
-                  <div>
-                    <v-card-title
-                      class="display-1"
-                      v-text="stack.name"
-                    ></v-card-title>
+        <v-col v-for="stack in stacks" :key="stack._id" cols="12" md="3" lg="4">
+          <v-card :to="'/stack/' + stack._id" color="white">
+            <div class="d-flex flex-no-wrap justify-space-between mb-2">
+              <div>
+                <v-card-title
+                  class="display-1"
+                  v-text="stack.name"
+                ></v-card-title>
 
-                    <v-card-subtitle class="headline py-0">
-                      <v-icon>
-                        mdi-cards
-                      </v-icon>
-                      {{ stack.cards.length }}
-                    </v-card-subtitle>
+                <v-card-subtitle class="headline py-0">
+                  <v-icon>
+                    mdi-cards
+                  </v-icon>
+                  {{ stack.cards.length }}
+                </v-card-subtitle>
 
-                    <v-card-actions>
-                      <v-btn
-                        v-if="stack.isPublic"
-                        class="ml-2 mt-5"
-                        outlined
-                        rounded
-                        small
-                        >public</v-btn
-                      >
-                      <v-btn class="ml-2 mt-5" outlined rounded small
-                        >Subscribed</v-btn
-                      >
-                    </v-card-actions>
-                  </div>
+                <v-card-actions>
+                  <v-btn
+                    v-if="stack.isPublic"
+                    class="ml-2 mt-5"
+                    outlined
+                    rounded
+                    small
+                    >public</v-btn
+                  >
+                  <v-btn class="ml-2 mt-5" outlined rounded small
+                    >Subscribed</v-btn
+                  >
+                </v-card-actions>
+              </div>
 
-                  <v-avatar class="ma-3" size="125" tile>
-                    <v-img
-                      :src="
-                        stack.picture
-                          ? stack.picture
-                          : ''
-                      "
-                    ></v-img>
-                  </v-avatar>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
+              <v-avatar class="ma-3" size="125" tile>
+                <v-img
+                  :src="
+                    stack.picture ? stack.picture : 'https://picsum.photos/720'
+                  "
+                ></v-img>
+              </v-avatar>
+            </div>
+          </v-card>
+        </v-col>
+        
+      </v-row>
     </v-container>
 
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-card>
-        <v-card-title>
-          <span class="headline"
-            >New Stack
-
-            <v-icon>mdi-tray-full</v-icon>
-          </span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <form>
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field
-                    label="Title"
-                    required
-                    v-model="newStack.name"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field
-                    label="Picture"
-                    hint="Link to an image"
-                    v-model="newStack.picture"
-                  ></v-text-field>
-                </v-col>
-                <v-col>
-                  <v-checkbox
-                    v-model="newStack.isPublic"
-                    label="Make this Stack public"
-                  >
-                  </v-checkbox>
-                </v-col>
-              </v-row>
-            </form>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="saveStack">
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <stackDialog
+        :stack="newStack"
+        title="New stack"
+        @save="saveStack"
+        @close="dialog = false"
+      />
     </v-dialog>
   </div>
 </template>
@@ -120,7 +72,11 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
+import stackDialog from "../components/stackModal.vue";
 export default {
+  components: {
+    stackDialog,
+  },
   computed: {
     ...mapState(["stacks"]),
     color() {
@@ -170,11 +126,10 @@ export default {
         axios
           .post("http://localhost:3000/api/stacks", data)
           .then((response) => {
-            console.log("New stack created");
             this.dialog = false;
-            this.getStacks().then((response)=>{
-                this.colors();
-            })
+            this.getStacks().then((response) => {
+              console.log("New stack created");
+            });
           });
       }
     },
@@ -190,14 +145,14 @@ export default {
         "deep-orange",
         "deep-orange darken-4",
       ];
-      this.stacks.forEach(stack => {
-      let random = Math.floor(Math.random() * colors.length);
-         stack.color = colors[random]; 
+      this.stacks.forEach((stack) => {
+        let random = Math.floor(Math.random() * colors.length);
+        stack.color = colors[random];
       });
     },
   },
-  created(){
-      this.colors();
-  }
+  created() {
+    this.colors();
+  },
 };
 </script>

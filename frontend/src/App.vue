@@ -15,7 +15,7 @@
       <v-toolbar-title>ReStack</v-toolbar-title>
     </v-app-bar> -->
     <!-- <div class="spacers"></div> -->
-    <v-img src="https://i.imgur.com/DZFku3D.jpg" height="100%" width="100%">
+    <v-img gradient="to bottom right, #FAB325, #EA191C" height="100%" width="100%">
     <v-main class="background">
       <router-view></router-view>
     </v-main>
@@ -82,11 +82,9 @@ export default {
   height: 56px;
 }
 
-.loader {
-background-image: linear-gradient(to bottom right, yellow, red);
-}
 
 .background {
     /* background-image: "https://i.imgur.com/DZFku3D.jpg"; */
 }
 </style>
+

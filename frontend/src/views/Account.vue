@@ -1,10 +1,11 @@
 <template>
   <v-responsive height="100%">
-    <!-- <v-img src="https://i.imgur.com/DZFku3D.jpg" height="100%" width="100%"> -->
-      <v-container fill-height fluid>
+      <v-container fill-height>
         <v-row align="center" justify="center">
+          <v-col justify="center" align="center" width="400">
+
           <v-avatar size="200" style="z-index: 2; margin-top: 100px">
-            <v-img :src="user.picture" />
+            <v-img :src="user.picture.replace('s96-c','s200')" />
           </v-avatar>
 
           <v-card
@@ -14,20 +15,19 @@
             width="400"
           >
             <br />
-            <!-- <v-card-title>Hello</v-card-title> -->
             <p class="display-1 text-center mt-12">{{ user.username }}</p>
           </v-card>
 
           <v-btn large width="400" class="mt-4" @click="randomize()">
             Randomize Username
           </v-btn>
+          <br>
           <v-btn large width="400" class="mt-4" @click="signOut()">
             Sign out
           </v-btn>
+          </v-col>
         </v-row>
       </v-container>
-    <!-- </v-img> -->
-    hello
   </v-responsive>
 </template>
 

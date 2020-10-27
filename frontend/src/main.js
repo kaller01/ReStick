@@ -3,11 +3,12 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import Axios from 'axios'
 import vuetify from './plugins/vuetify';
+import 'v-markdown-editor/dist/v-markdown-editor.css';
+import Editor from 'v-markdown-editor'
 
+Vue.use(Editor);
 Vue.config.productionTip = false
-// Axios.defaults.headers.common['Authorization'] = localStorage.auth;
 
 new Vue({
   router,
@@ -15,5 +16,3 @@ new Vue({
   vuetify,
   render: function (h) { return h(App) }
 }).$mount('#app')
-
-// store.dispatch('getUser');

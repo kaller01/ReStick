@@ -4,7 +4,7 @@ module.exports = {
   newStack: async (req, res) => {
     const newStack = new Stack(req.body);
 
-    console.log(newStack);
+    if(newStack.picture == "") newStack.picture = "https://picsum.photos/seed/"+newStack._id+"/720";
 
     await newStack.save();
 

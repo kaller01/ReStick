@@ -8,13 +8,17 @@ module.exports = {
     res.sendStatus(200);
   },
   leaveStack: async (req, res) => {
-    // console.log(req.user.stacks, req.body.id);
     const index = req.user.stacks.indexOf(req.params.stackId);
+    const subIndex = req.user.subs.indexOf(req.params.stackId);
+    if(subIndex != -1){
+      req.user.subs.splice(index,1);
+      req.user.save();
+    } 
     //If the user has access to the stack it will be in the array
     if (index != -1) {
       req.user.stacks.splice(index, 1);
       req.user.save();
-      res.sendStatus(200);
+      res.sendStatus(200)
     } else res.sendStatus(404);
   },
   getSubs: async (req, res) => {

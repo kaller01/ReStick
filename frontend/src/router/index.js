@@ -6,6 +6,7 @@ import Stacks from "../views/Stacks.vue";
 import Stack from "../views/Stack.vue";
 import Spaced from "../views/Spaced.vue";
 import store from "../store";
+const storeInit = store.dispatch("init");
 
 Vue.use(VueRouter);
 
@@ -41,7 +42,7 @@ const routes = [
     component: Stack,
     beforeEnter(to, from, next) {
       // ...
-      store.dispatch('getStack',to.params.stackId).then(next)
+      store.dispatch("getStack", to.params.stackId).then(next);
     },
   },
   {
@@ -58,21 +59,28 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-const storeInit = store.dispatch("init");
-  if(to.path == "/"){
+  if (to.path == "/") {
     next();
-    store.commit("SET_LOADING", false)
+    store.commit("SET_LOADING", false);
+  } else if (store.state.user) {
+    if (store.state.stacks) next();
+    else
+      store.dispatch("getStacks").then(() => {
+        next();
+      });
   } else {
-  storeInit
-    .then(() => {
-      console.log(storeInit);
-      next();
-    })
-    .catch((e) => {
-      // Handle error
-      console.log("Something went wrong!!")
-      next("/")
-    });
+    storeInit
+      .then(() => {
+        console.log(storeInit);
+        if(store.state.user && store.state.stacks)
+        next();
+        else next("/")
+      })
+      .catch((e) => {
+        // Handle error
+        console.log("Something went wrong!!");
+        next("/");
+      });
   }
 });
 
