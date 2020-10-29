@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     name: String,
     stacks: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'stacks'
+        ref: 'access'
     }],
     subs: [{
         type: mongoose.Schema.Types.ObjectId,

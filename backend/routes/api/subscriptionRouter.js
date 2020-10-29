@@ -8,6 +8,5 @@ router.route("/").get(userController.getSubs);
 router
   .route("/:stackId")
   .delete(userController.unSub)
-  .post(StackController.continueIfAvailable, userController.sub);
 
 module.exports = router;

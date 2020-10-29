@@ -4,10 +4,10 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
-import 'v-markdown-editor/dist/v-markdown-editor.css';
-import Editor from 'v-markdown-editor'
+import VueSwing from 'vue-swing'
 
-Vue.use(Editor);
+Vue.component('vue-swing', VueSwing)
+
 Vue.config.productionTip = false
 
 new Vue({

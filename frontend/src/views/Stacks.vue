@@ -13,32 +13,32 @@
       <v-row dense>
         <v-col cols="12"> </v-col>
 
-        <v-col v-for="stack in stacks" :key="stack._id" cols="12" md="3" lg="4">
-          <v-card :to="'/stack/' + stack._id" color="white">
+        <v-col v-for="item in stacks" :key="item.stack._id" cols="12" md="3" lg="4">
+          <v-card :to="'/stack/' + item.stack._id" color="white">
             <div class="d-flex flex-no-wrap justify-space-between mb-2">
               <div>
                 <v-card-title
                   class="display-1"
-                  v-text="stack.name"
+                  v-text="item.stack.name"
                 ></v-card-title>
 
                 <v-card-subtitle class="headline py-0">
                   <v-icon>
                     mdi-cards
                   </v-icon>
-                  {{ stack.cards.length }}
+                  {{ item.stack.cards.length }}
                 </v-card-subtitle>
 
                 <v-card-actions>
                   <v-btn
-                    v-if="stack.isPublic"
+                    v-if="item.stack.isPublic"
                     class="ml-2 mt-5"
                     outlined
                     rounded
                     small
                     >public</v-btn
                   >
-                  <v-btn class="ml-2 mt-5" outlined rounded small
+                  <v-btn v-if="item.subscribed" class="ml-2 mt-5" outlined rounded small
                     >Subscribed</v-btn
                   >
                 </v-card-actions>
@@ -47,7 +47,7 @@
               <v-avatar class="ma-3" size="125" tile>
                 <v-img
                   :src="
-                    stack.picture ? stack.picture : 'https://picsum.photos/720'
+                    item.stack.picture ? item.stack.picture : 'https://picsum.photos/720'
                   "
                 ></v-img>
               </v-avatar>

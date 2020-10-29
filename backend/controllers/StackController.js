@@ -1,15 +1,25 @@
 const Stack = require("../models/Stack");
+const Access = require("../models/Access");
 
 module.exports = {
   newStack: async (req, res) => {
     const newStack = new Stack(req.body);
 
-    if(newStack.picture == "") newStack.picture = "https://picsum.photos/seed/"+newStack._id+"/720";
+    if (newStack.picture == "")
+      newStack.picture = "https://picsum.photos/seed/" + newStack._id + "/720";
 
     await newStack.save();
 
-    req.user.stacks.push(newStack);
-    req.user.subs.push(newStack);
+    const newAccess = new Access({
+      stack: newStack,
+      permission: true,
+      subscribed: true,
+    });
+
+    await newAccess.save();
+
+    req.user.stacks.push(newAccess);
+    // req.user.subs.push(newStack);
     req.user.save();
 
     res.sendStatus(201);
@@ -20,49 +30,101 @@ module.exports = {
       .populate({
         path: "stacks",
         populate: {
-          path: "cards",
+          path: "stack",
         },
       })
       .execPopulate();
+
     res.send(req.user.stacks);
   },
   //Sends one stack
   getStack: async (req, res) => {
     await req.stack.populate("cards").execPopulate();
-    res.status = 200;
-    res.send(req.stack);
+    const stack = req.stack.toObject();
+    if (req.access) {
+      stack.subscribed = req.access.subscribed;
+      stack.permission = req.access.permission;
+      stack.unknown = false;
+    } else {
+      stack.subscribed = false;
+      stack.permission = false;
+      stack.unknown = true
+    }
+    console.log(stack.subscribed);
+    res.send(stack);
   },
   updateStack: async (req, res, next) => {
     await Stack.update(req.stack, req.body);
     res.sendStatus(200);
   },
-  //Continue if the stack has access and save it for later use in req.stacks to avoid duplicate calls to DB.
-  continueIfAccess: async (req, res, next) => {
-    const index = req.user.stacks.indexOf(req.params.stackId);
+  unSub: async (req, res, next) => {
+    if (req.access) {
+      req.access.subscribed = false;
+      await req.access.save();
+      res.sendStatus(200);
+    } else res.sendStatus(404);
+  },
+  sub: async (req, res, next) => {
+    if (req.access) {
+      req.access.subscribed = true;
+      await req.access.save();
+      res.sendStatus(200);
+    } else res.sendStatus(404);
+  },
+  findAccess: async (req, res, next) => {
+    let index = req.user.stacks
+      .map((e) => {
+        return e.stack; //id
+      })
+      .indexOf(req.params.stackId);
+    if (index == -1) {
+    } else {
+      req.access = await Access.findById(req.user.stacks[index]._id);
+    }
+    next();
+  },
+  findAccessStack: async (req, res, next) => {
+    if (req.stack) next();
+    else {
+      let index = req.user.stacks
+        .map((e) => {
+          return e.stack; //id
+        })
+        .indexOf(req.params.stackId);
+      if (index == -1) {
+      } else {
+        req.access = await Access.findById(req.user.stacks[index]._id);
+        req.stack = await Stack.findById(req.user.stacks[index].stack);
+      }
+      next();
+    }
+  },
+  findPublicStack: async (req, res, next) => {
+    if (req.stack) next();
+    else {
+      const stack = await Stack.findById(req.params.stackId).populate("cards");
+      if (stack.isPublic) {
+        req.stack = stack;
+      }
+      next();
+    }
+  },
+  continueIfPermission: (req, res, next) => {
+    if (req.access.permission) next();
+    else res.sendStatus(401);
+  },
+  addStack: async (req,res,next)=>{
+    const newAccess = new Access({
+      stack: req.stack,
+      permission: true,
+      subscribed: true,
+    });
 
-    if (index != -1) {
-      req.stack = await Stack.findOne(req.user.stacks[index]);
-      next();
-    } else res.sendStatus(404);
-  },
-  //If the stack is public, then send it. If not it will continue to the next method.
-  sendIfPublic: async (req, res, next) => {
-    const stack = await Stack.findById(req.params.stackId).populate("cards");
-    if (stack.isPublic) {
-      res.status = 200;
-      res.send(stack);
-    } else next();
-  },
-  //This method is to check if a stack is Public OR the user has access to it
-  continueIfAvailable: async (req, res, next) => {
-    const stack = await Stack.findById(req.params.stackId);
-    const index = req.user.stacks.indexOf(req.params.stackId);
-    if (stack.isPublic) {
-      req.stack = stack;
-      next();
-    } else if (index != -1) {
-      req.stack = await Stack.findOne(req.user.stacks[index]);
-      next();
-    } else res.sendStatus(404);
-  },
+    await newAccess.save();
+
+    req.user.stacks.push(newAccess);
+    req.user.save();
+
+    res.sendStatus(201);
+  }
 };

@@ -15,4 +15,5 @@ const StackSchema = mongoose.Schema({
   isPublic: Boolean
 });
 
+
 module.exports = mongoose.model("stacks", StackSchema);

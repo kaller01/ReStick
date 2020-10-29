@@ -28,18 +28,27 @@
 
           <v-spacer></v-spacer>
 
-
-          <v-btn icon v-if="isSubscribed" @click="unsubStack">
+          <v-btn
+            icon
+            v-if="!stack.unknown"
+            v-show="stack.subscribed"
+            @click="unsubStack"
+          >
             <v-icon>mdi-bell-check</v-icon>
           </v-btn>
-          <v-btn icon v-else @click="subStack">
+          <v-btn
+            icon
+            v-if="!stack.unknown"
+            v-show="!stack.subscribed"
+            @click="subStack"
+          >
             <v-icon>mdi-bell-off</v-icon>
           </v-btn>
-          <v-btn icon @click="dialog = true">
+          <v-btn icon v-if="!stack.unknown" @click="dialog = true">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
 
-          <v-btn icon @click="deleteStack">
+          <v-btn icon v-if="!stack.unknown" @click="deleteStack">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </v-toolbar>
@@ -47,7 +56,12 @@
     </v-card>
     <v-container>
       <v-row>
-        <v-col>
+        <v-col v-if="stack.unknown">
+          <v-btn block @click="addStack">
+            Subscribe to stack
+          </v-btn>
+        </v-col>
+        <v-col v-else>
           <v-btn block @click="newCardDialog = true">
             Add card
           </v-btn>
@@ -131,7 +145,6 @@ export default {
       back: "",
     },
     card: false,
-    isSubscribed: true
   }),
   methods: {
     ...mapActions(["getStacks", "getStack"]),
@@ -192,19 +205,29 @@ export default {
           this.cardDialog = this.editCardDialog = false;
         });
     },
-    subStack(){
-      axios.post("http://localhost:3000/api/user/subs/"+this.stack._id).then((response)=>{
-        this.getStacks();
-        this.getStack();
-        this.isSubscribed = true;
-      })
+    subStack() {
+      axios
+        .put("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .then((response) => {
+          this.getStacks();
+          this.getStack();
+        });
     },
-    unsubStack(){
-      axios.delete("http://localhost:3000/api/user/subs/"+this.stack._id).then((response)=>{
-        this.getStack();
-        this.getStacks();
-        this.isSubscribed = false;
-      })
+    unsubStack() {
+      axios
+        .delete("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .then((response) => {
+          this.getStack();
+          this.getStacks();
+        });
+    },
+    addStack() {
+      axios
+        .post("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .then((response) => {
+          this.getStacks();
+          this.getStack();
+        });
     },
     compileMarkdown(md) {
       let html = marked(md);

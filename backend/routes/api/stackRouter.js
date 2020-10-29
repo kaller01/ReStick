@@ -8,20 +8,32 @@ router.route("/").get(stack.getStacks).post(stack.newStack);
 
 router
   .route("/:stackId")
-  .get(stack.sendIfPublic, stack.continueIfAccess, stack.getStack)
-  .post(stack.continueIfAccess, CardController.newCard)
-  .put(stack.continueIfAccess, stack.updateStack)
-  .delete(userController.leaveStack);
+  .get(stack.findAccessStack, stack.findPublicStack, stack.getStack)
+  .post(
+    stack.findAccessStack,
+    stack.continueIfPermission,
+    CardController.newCard
+  )
+  .put(stack.findAccessStack, stack.continueIfPermission, stack.updateStack)
+  .delete(stack.findAccessStack, userController.leaveStack);
+
+router
+  .route("/:stackId/sub")
+  .post(stack.findPublicStack, stack.addStack)
+  .put(stack.findAccess, stack.sub)
+  .delete(stack.findAccess, stack.unSub);
 
 router
   .route("/:stackId/:cardId")
   .delete(
-    stack.continueIfAccess,
+    stack.findAccessStack,
+    stack.continueIfPermission,
     CardController.findCard,
     CardController.deleteCard
   )
   .put(
-    stack.continueIfAccess,
+    stack.findAccessStack,
+    stack.continueIfPermission,
     CardController.findCard,
     CardController.updateCard
   );
