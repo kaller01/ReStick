@@ -24,26 +24,23 @@ router.post("/google", (req, res) => {
             googleID: tokenInfo.sub,
             picture: tokenInfo.picture,
             name: tokenInfo.name,
+            stacks: [
+              {
+                //Tutorial stack
+                stack: "5f985ad874f99206a13a8f19",
+                permission: false,
+                subscribed: false,
+              },
+              {
+                //Intro stack
+                stack: "5f985f2574f99206a13a8f20",
+                permission: false,
+                subscribed: false,
+              },
+            ],
           });
-
-          const tutorial = new Access({
-            stack: '5f985ad874f99206a13a8f19',
-            permission: false,
-            subscribed: false,
-          });
-          const intro = new Access({
-            stack: '5f985f2574f99206a13a8f20',
-            permission: false,
-            subscribed: false,
-          });
-
-          await tutorial.save();
-          await intro.save();
 
           user = await user.save();
-
-          user.stacks.push(tutorial);
-          user.stacks.push(intro);
         }
         console.log(user);
         const id = user._id;

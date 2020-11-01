@@ -5,7 +5,7 @@ const User = require('../../models/User')
 function auth(req,res,next){
     jwt.verify(req.headers.authorization, keys.jwt, async(err, decoded)=>{
       if(!err){
-          let user = await User.findById(decoded.id).populate("stacks");
+          let user = await User.findById(decoded.id);
           if(user){
             req.user = user;
             console.log(user.name + " was authorized");

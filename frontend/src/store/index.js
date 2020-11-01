@@ -12,8 +12,8 @@ export default new Vuex.Store({
     loading: true,
     stack: false,
     isLoggedIn: false,
-    // host: "http://localhost:3000"
-    host: ""
+    host: "http://localhost:3000"
+    // host: ""
   },
   mutations: {
     SET_USER(state, user) {

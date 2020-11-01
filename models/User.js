@@ -13,14 +13,16 @@ const UserSchema = mongoose.Schema({
         type: String,
     },
     name: String,
-    stacks: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'access'
-    }],
-    subs: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'stacks'
-    }]
+    stacks: [
+        {
+            permission: Boolean,
+            subscribed: Boolean,
+            stack: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'stacks'
+            }
+        }
+    ]
 })
 
 module.exports = mongoose.model('Users', UserSchema)

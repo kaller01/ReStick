@@ -1,5 +1,4 @@
 const Stack = require("../models/Stack");
-const Access = require("../models/Access");
 
 module.exports = {
   newStack: async (req, res) => {
@@ -10,13 +9,11 @@ module.exports = {
 
     await newStack.save();
 
-    const newAccess = new Access({
+    const newAccess = {
       stack: newStack,
       permission: true,
       subscribed: true,
-    });
-
-    await newAccess.save();
+    };
 
     req.user.stacks.push(newAccess);
     // req.user.subs.push(newStack);
@@ -48,9 +45,9 @@ module.exports = {
     } else {
       stack.subscribed = false;
       stack.permission = false;
-      stack.unknown = true
+      stack.unknown = true;
     }
-    console.log(stack.subscribed);
+    console.log(req.access);
     res.send(stack);
   },
   updateStack: async (req, res, next) => {
@@ -59,15 +56,15 @@ module.exports = {
   },
   unSub: async (req, res, next) => {
     if (req.access) {
-      req.access.subscribed = false;
-      await req.access.save();
+      req.user.stacks[req.access.index].subscribed = false;
+      await req.user.save();
       res.sendStatus(200);
     } else res.sendStatus(404);
   },
   sub: async (req, res, next) => {
     if (req.access) {
-      req.access.subscribed = true;
-      await req.access.save();
+      req.user.stacks[req.access.index].subscribed = true;
+      await req.user.save();
       res.sendStatus(200);
     } else res.sendStatus(404);
   },
@@ -79,7 +76,8 @@ module.exports = {
       .indexOf(req.params.stackId);
     if (index == -1) {
     } else {
-      req.access = await Access.findById(req.user.stacks[index]._id);
+      req.access = req.user.stacks[index].toObject();
+      req.access.index = index;
     }
     next();
   },
@@ -93,8 +91,9 @@ module.exports = {
         .indexOf(req.params.stackId);
       if (index == -1) {
       } else {
-        req.access = await Access.findById(req.user.stacks[index]._id);
         req.stack = await Stack.findById(req.user.stacks[index].stack);
+        req.access = req.user.stacks[index].toObject();
+        req.access.index = index;
       }
       next();
     }
@@ -113,18 +112,16 @@ module.exports = {
     if (req.access.permission) next();
     else res.sendStatus(401);
   },
-  addStack: async (req,res,next)=>{
-    const newAccess = new Access({
+  addStack: async (req, res, next) => {
+    const newAccess = {
       stack: req.stack,
       permission: false,
       subscribed: true,
-    });
-
-    await newAccess.save();
+    };
 
     req.user.stacks.push(newAccess);
     req.user.save();
 
     res.sendStatus(201);
-  }
+  },
 };
