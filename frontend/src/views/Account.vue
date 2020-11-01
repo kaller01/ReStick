@@ -41,17 +41,15 @@ export default {
     GoogleSignInButton,
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user","host"]),
   },
   data: () => ({
     clientId:
       "256693553552-01bl6ulv29bolub2l5pgna5jovkd84pl.apps.googleusercontent.com",
-    url: "",
-    users: [],
   }),
   methods: {
     randomize() {
-      axios.get("http://localhost:3000/api/user/randomize").then((response) => {
+      axios.get(this.host + "/api/user/randomize").then((response) => {
         this.$store.dispatch("getUser");
       });
     },

@@ -1,10 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Account from "../views/Account.vue";
-import Stacks from "../views/Stacks.vue";
-import Stack from "../views/Stack.vue";
-import Spaced from "../views/Spaced.vue";
 import store from "../store";
 const storeInit = store.dispatch("init");
 
@@ -14,41 +9,40 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: function() {
-      return import(/* webpackChunkName: "about" */ "../views/About.vue");
+      return import(/* webpackChunkName: "home" */ "../views/Home.vue");
     },
   },
   {
     path: "/account",
     name: "Account",
-    component: Account,
+    component: function() {
+      return import(/* webpackChunkName: "account" */ "../views/Account.vue");
+    },
   },
   {
     path: "/stacks",
     name: "Stacks",
-    component: Stacks,
+    component: function() {
+      return import(/* webpackChunkName: "stacks" */ "../views/Stacks.vue");
+    },
   },
   {
     name: "Stack",
-    path: "/stack/:stackId",
-    component: Stack,
+    path: "/stacks/:stackId",
+    component: function() {
+      return import(/* webpackChunkName: "stack" */ "../views/Stack.vue");
+    },
     beforeEnter(to, from, next) {
-      // ...
       store.dispatch("getStack", to.params.stackId).then(next);
     },
   },
   {
     path: "/spaced",
     name: "Spaced repetition",
-    component: Spaced,
+    component: function() {
+      return import(/* webpackChunkName: "spaced" */ "../views/Spaced.vue");
+    },
   },
 ];
 
@@ -78,7 +72,7 @@ router.beforeEach((to, from, next) => {
       })
       .catch((e) => {
         // Handle error
-        console.log("Something went wrong!!");
+        console.log("Preload request failed");
         next("/");
       });
   }

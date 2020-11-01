@@ -12,6 +12,7 @@ export default new Vuex.Store({
     loading: true,
     stack: false,
     isLoggedIn: false,
+    host: "http://localhost:3000"
   },
   mutations: {
     SET_USER(state, user) {
@@ -43,11 +44,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getUser({ commit, dispatch }) {
+    getUser({ commit, dispatch, state }) {
       return new Promise((resolve, reject) => {
         axios
           .post(
-            "http://localhost:3000/auth/verify",
+            state.host + "/auth/verify",
             {},
             {
               headers: {
@@ -65,9 +66,9 @@ export default new Vuex.Store({
           })
       });
     },
-    getStacks({ commit }) {
+    getStacks({ commit, state }) {
       return new Promise((resolve, reject) => {
-        axios.get("http://localhost:3000/api/stacks").then((response) => {
+        axios.get(state.host + "/api/stacks").then((response) => {
           commit("SET_STACKS", response.data);
           resolve(response.data);
         });
@@ -97,7 +98,7 @@ export default new Vuex.Store({
       if(!id) id = state.stack._id;
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        axios.get("http://localhost:3000/api/stacks/" + id).then((response) => {
+        axios.get(state.host + "/api/stacks/" + id).then((response) => {
           commit("SET_STACK", response.data);
           commit("SET_LOADING", false);
           resolve();

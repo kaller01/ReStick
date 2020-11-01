@@ -133,7 +133,7 @@ export default {
     card,
   },
   computed: {
-    ...mapState(["stack", "user"]),
+    ...mapState(["stack", "user","host"]),
   },
   data: () => ({
     dialog: false,
@@ -150,7 +150,7 @@ export default {
     ...mapActions(["getStacks", "getStack"]),
     deleteStack() {
       axios
-        .delete("http://localhost:3000/api/stacks/" + this.stack._id)
+        .delete(this.host + "/api/stacks/" + this.stack._id)
         .then((response) => {
           console.log("Deleted stack");
           this.getStacks().then((response) => {
@@ -161,7 +161,7 @@ export default {
     saveStack() {
       let data = this.stack;
       axios
-        .put("http://localhost:3000/api/stacks/" + this.stack._id, data)
+        .put(this.host + "/api/stacks/" + this.stack._id, data)
         .then((response) => {
           this.getStacks();
           this.getStack(this.stack._id);
@@ -171,7 +171,7 @@ export default {
     saveNewCard(data) {
       console.log(data);
       axios
-        .post("http://localhost:3000/api/stacks/" + this.stack._id, data)
+        .post(this.host + "/api/stacks/" + this.stack._id, data)
         .then((response) => {
           this.getStack(this.stack._id).then((response) => {
             this.newCardDialog = false;
@@ -181,7 +181,7 @@ export default {
     saveCard(data) {
       axios
         .put(
-          "http://localhost:3000/api/stacks/" +
+          this.host + "/api/stacks/" +
             this.stack._id +
             "/" +
             this.card._id,
@@ -195,7 +195,7 @@ export default {
     deleteCard() {
       axios
         .delete(
-          "http://localhost:3000/api/stacks/" +
+          this.host + "/api/stacks/" +
             this.stack._id +
             "/" +
             this.card._id
@@ -207,7 +207,7 @@ export default {
     },
     subStack() {
       axios
-        .put("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .put(this.host + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStacks();
           this.getStack();
@@ -215,7 +215,7 @@ export default {
     },
     unsubStack() {
       axios
-        .delete("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .delete(this.host + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStack();
           this.getStacks();
@@ -223,7 +223,7 @@ export default {
     },
     addStack() {
       axios
-        .post("http://localhost:3000/api/stacks/" + this.stack._id + "/sub")
+        .post(this.host + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStacks();
           this.getStack();

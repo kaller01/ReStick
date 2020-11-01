@@ -28,7 +28,7 @@ export default {
     GoogleSignInButton,
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["host"]),
   },
   data: () => ({
     clientId:
@@ -39,7 +39,7 @@ export default {
     OnGoogleAuthSuccess(idToken) {
       // Receive the idToken and make your magic with the backend
       axios
-        .post("http://localhost:3000/auth/google/", {
+        .post(this.host + "/auth/google/", {
           idToken,
         })
         .then((response) => {

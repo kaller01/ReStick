@@ -14,7 +14,7 @@
         <v-col cols="12"> </v-col>
 
         <v-col v-for="item in stacks" :key="item.stack._id" cols="12" md="3" lg="4">
-          <v-card :to="'/stack/' + item.stack._id" color="white">
+          <v-card :to="'/stacks/' + item.stack._id" color="white">
             <div class="d-flex flex-no-wrap justify-space-between mb-2">
               <div>
                 <v-card-title
@@ -78,7 +78,7 @@ export default {
     stackDialog,
   },
   computed: {
-    ...mapState(["stacks"]),
+    ...mapState(["stacks","host"]),
     color() {
       let colors = [
         "yellow darken-4",
@@ -102,20 +102,6 @@ export default {
       picture: "",
       isPublic: false,
     },
-    items: [
-      {
-        color: "#1F7087",
-        src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-        title: "Supermodel",
-        artist: "Foster the People",
-      },
-      {
-        color: "#952175",
-        src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-        title: "Halcyon Days",
-        artist: "Ellie Goulding",
-      },
-    ],
   }),
   methods: {
     ...mapActions(["getStacks"]),
@@ -124,7 +110,7 @@ export default {
         let data = this.newStack;
         console.log(data);
         axios
-          .post("http://localhost:3000/api/stacks", data)
+          .post(this.host + "/api/stacks", data)
           .then((response) => {
             this.dialog = false;
             this.getStacks().then((response) => {
