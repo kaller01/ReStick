@@ -1,0 +1,68 @@
+2020-11-01T09:58:12.895410+00:00 app[api]: Initial release by user martin@kallers.se
+2020-11-01T09:58:12.895410+00:00 app[api]: Release v1 created by user martin@kallers.se
+2020-11-01T09:58:13.225261+00:00 app[api]: Enable Logplex by user martin@kallers.se
+2020-11-01T09:58:13.225261+00:00 app[api]: Release v2 created by user martin@kallers.se
+2020-11-01T10:01:05.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:01:07.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/2e22f3be-c245-4018-937c-cc17fc20f3cb
+2020-11-01T10:03:10.283346+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=restick.herokuapp.com request_id=62db503b-f9fb-4d1f-bc54-9cb8d6315d0a fwd="90.231.235.28" dyno= connect= service= status=502 bytes= protocol=https
+2020-11-01T10:03:10.615454+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/favicon.ico" host=restick.herokuapp.com request_id=a1e02172-52c0-4189-ae4f-ff9173eb82aa fwd="90.231.235.28" dyno= connect= service= status=502 bytes= protocol=https
+2020-11-01T10:07:54.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:07:55.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/7237b789-d40a-485a-8a9f-23a53c4fdd41
+2020-11-01T10:07:56.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:07:58.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/96155cc7-1efa-4af6-ad95-deb2a70da3f5
+2020-11-01T10:21:57.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:21:58.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/deb6b876-94cc-4524-b43e-6a16ede64ff0
+2020-11-01T10:22:08.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:22:09.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/b8243883-27e1-4b86-b50f-de005575bd01
+2020-11-01T10:22:24.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:22:25.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/0a1626a7-c213-4c8c-ade8-2af2eb176958
+2020-11-01T10:22:31.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:22:32.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/3def901f-6fca-4eea-b780-aaa5608eeecc
+2020-11-01T10:30:52.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:30:53.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/eabd0388-b64f-4a25-b3b2-e650480ff744
+2020-11-01T10:33:40.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:33:41.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/e6ea0a96-fdcb-49b0-a041-77f02dca794d
+2020-11-01T10:34:30.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:34:31.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/069dbcfe-73e9-4ce5-8760-73ab8e98d59c
+2020-11-01T10:34:44.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:34:45.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/b6b21b85-6191-499c-a12a-99c3603af734/activity/builds/d4d573c3-68b2-4b27-8a3d-428193ebe22d
+2020-11-01T10:38:56.000000+00:00 app[api]: Build started by user martin@kallers.se
+2020-11-01T10:39:19.073065+00:00 app[api]: Release v3 created by user martin@kallers.se
+2020-11-01T10:39:19.073065+00:00 app[api]: Deploy 36492258 by user martin@kallers.se
+2020-11-01T10:39:19.110527+00:00 app[api]: Scaled to web@1:Free by user martin@kallers.se
+2020-11-01T10:39:20.000000+00:00 app[api]: Build succeeded
+2020-11-01T10:39:22.421272+00:00 heroku[web.1]: Starting process with command `node backend/bin/www`
+2020-11-01T10:39:24.372669+00:00 app[web.1]: internal/modules/cjs/loader.js:834
+2020-11-01T10:39:24.372691+00:00 app[web.1]: throw err;
+2020-11-01T10:39:24.372691+00:00 app[web.1]: ^
+2020-11-01T10:39:24.372691+00:00 app[web.1]: 
+2020-11-01T10:39:24.372692+00:00 app[web.1]: Error: Cannot find module '/app/backend/bin/www'
+2020-11-01T10:39:24.372693+00:00 app[web.1]: at Function.Module._resolveFilename (internal/modules/cjs/loader.js:831:15)
+2020-11-01T10:39:24.372693+00:00 app[web.1]: at Function.Module._load (internal/modules/cjs/loader.js:687:27)
+2020-11-01T10:39:24.372694+00:00 app[web.1]: at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12)
+2020-11-01T10:39:24.372694+00:00 app[web.1]: at internal/main/run_main_module.js:17:47 {
+2020-11-01T10:39:24.372694+00:00 app[web.1]: code: 'MODULE_NOT_FOUND',
+2020-11-01T10:39:24.372695+00:00 app[web.1]: requireStack: []
+2020-11-01T10:39:24.372695+00:00 app[web.1]: }
+2020-11-01T10:39:24.414129+00:00 heroku[web.1]: Process exited with status 1
+2020-11-01T10:39:24.451954+00:00 heroku[web.1]: State changed from starting to crashed
+2020-11-01T10:39:24.455198+00:00 heroku[web.1]: State changed from crashed to starting
+2020-11-01T10:39:27.842489+00:00 heroku[web.1]: Starting process with command `node backend/bin/www`
+2020-11-01T10:39:30.185656+00:00 app[web.1]: internal/modules/cjs/loader.js:834
+2020-11-01T10:39:30.185681+00:00 app[web.1]: throw err;
+2020-11-01T10:39:30.185681+00:00 app[web.1]: ^
+2020-11-01T10:39:30.185682+00:00 app[web.1]: 
+2020-11-01T10:39:30.185682+00:00 app[web.1]: Error: Cannot find module '/app/backend/bin/www'
+2020-11-01T10:39:30.185683+00:00 app[web.1]: at Function.Module._resolveFilename (internal/modules/cjs/loader.js:831:15)
+2020-11-01T10:39:30.185683+00:00 app[web.1]: at Function.Module._load (internal/modules/cjs/loader.js:687:27)
+2020-11-01T10:39:30.185684+00:00 app[web.1]: at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12)
+2020-11-01T10:39:30.185684+00:00 app[web.1]: at internal/main/run_main_module.js:17:47 {
+2020-11-01T10:39:30.185685+00:00 app[web.1]: code: 'MODULE_NOT_FOUND',
+2020-11-01T10:39:30.185685+00:00 app[web.1]: requireStack: []
+2020-11-01T10:39:30.185685+00:00 app[web.1]: }
+2020-11-01T10:39:30.252419+00:00 heroku[web.1]: Process exited with status 1
+2020-11-01T10:39:30.301278+00:00 heroku[web.1]: State changed from starting to crashed
+2020-11-01T10:40:07.513042+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=restick.herokuapp.com request_id=69dd3331-2e23-4f29-a656-55c7f112d55e fwd="90.231.235.28" dyno= connect= service= status=503 bytes= protocol=https
+2020-11-01T10:40:07.825198+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=restick.herokuapp.com request_id=4890e42e-2de2-43af-b896-411048f07bae fwd="90.231.235.28" dyno= connect= service= status=503 bytes= protocol=https
+2020-11-01T10:40:14.120793+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=restick.herokuapp.com request_id=3895eb37-e3fb-4157-933e-98102e17c38e fwd="90.231.235.28" dyno= connect= service= status=503 bytes= protocol=https
+2020-11-01T10:40:14.348056+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=restick.herokuapp.com request_id=0a87d84e-d226-4c68-9436-22f21ac19ec4 fwd="90.231.235.28" dyno= connect= service= status=503 bytes= protocol=https
