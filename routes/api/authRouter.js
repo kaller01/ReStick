@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
           user = new User({
             username: rug.generate(),
             googleID: tokenInfo.sub,
-            picture: tokenInfo.picture,
+            picture: tokenInfo.picture.replace('s96-c','s200'),
             name: tokenInfo.name,
             stacks: [
               {
@@ -39,6 +39,8 @@ router.post("/", (req, res) => {
           });
 
           user = await user.save();
+        } else {
+          user.picture = tokenInfo.picture.replace('s96-c','s200');
         }
         const usernames = [
           user.username,

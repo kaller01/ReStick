@@ -1,33 +1,35 @@
 <template>
   <v-responsive height="100%">
-      <v-container fill-height>
-        <v-row align="center" justify="center">
-          <v-col justify="center" align="center" width="400">
-
+    <v-container fill-height>
+      <v-row align="center" justify="center">
+        <v-col justify="center" align="center" cols="12">
           <v-avatar size="200" style="z-index: 2; margin-top: 100px">
-            <v-img :src="user.picture.replace('s96-c','s200')" />
+            <v-img :src="user.picture" />
           </v-avatar>
 
           <v-card
-            class="flex-column align-center py-12"
+            class="flex-column flex-end pt-12"
             style="margin-top: -100px;"
             height="200"
-            width="400"
           >
             <br />
             <p class="display-1 text-center mt-12">{{ user.username }}</p>
           </v-card>
 
-          <v-btn large width="400" class="mt-4" @click="randomize()">
-            Randomize Username
-          </v-btn>
-          <br>
-          <v-btn large width="400" class="mt-4" @click="signOut()">
+          <br />
+        </v-col>
+        <v-col cols="12">
+          <v-btn large block class="" @click="signOut()">
             Sign out
           </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
+        </v-col>
+        <v-col cols="12">
+          <v-btn block large class="" @click="randomize()">
+            Randomize Username
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-responsive>
 </template>
 
@@ -41,7 +43,7 @@ export default {
     GoogleSignInButton,
   },
   computed: {
-    ...mapState(["user","host"]),
+    ...mapState(["user", "host"]),
   },
   data: () => ({
     clientId:
@@ -57,7 +59,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = null;
       localStorage.clear();
       this.$store.dispatch("clearUser");
-      this.$router.push("/")
+      this.$router.push("/");
     },
   },
   created() {
