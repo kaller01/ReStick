@@ -1,17 +1,17 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../../models/User");
-const userController = require("../../controllers/userController");
 const stackRouter = require("./stackRouter");
 const userRouter = require("./userRouter");
+const auth = require("../middleware/auth");
+const authRouter = require("./authRouter")
 
 //Public api, AUTH still required
-router.use('/stacks/', stackRouter);
+router.use('/stacks/', auth, stackRouter);
 
 
 //Private api
-router.use("/user/", userRouter);
+router.use("/user/", auth, userRouter);
 
-
+router.use("/auth/", authRouter)
 
 module.exports = router;

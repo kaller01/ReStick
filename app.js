@@ -4,10 +4,8 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const compression = require("compression");
 require("./config/mongoose-setup");
-const auth = require("./routes/middleware/auth.js");
 
-var apiRouter = require("./routes/api");
-var authRouter = require("./routes/auth");
+const apiRouter = require("./routes/api");
 
 var app = express();
 
@@ -22,8 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api", auth, apiRouter);
-app.use("/auth", authRouter);
+app.use("/api", apiRouter);
+// app.use("/auth", authRouter);
 
 
 app.get("*", (req, res) => {

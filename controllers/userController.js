@@ -1,5 +1,6 @@
 const rug = require("random-username-generator");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   randomizeUsername: async (req, res) => {
@@ -18,7 +19,20 @@ module.exports = {
       req.user.save();
       res.sendStatus(200);
     } else {
-      res.sendStatus(401)
+      res.sendStatus(401);
     }
+  },
+  newUsername: async (req, res) => {
+    jwt.verify(
+      req.headers.authorization,
+      process.env.jwt,
+      async (err, decoded) => {
+        if (decoded.usernames.includes(req.body.username)) {
+          req.user.username = req.body.username;
+          req.user.save();
+          res.sendStatus(200);
+        }
+      }
+    );
   },
 };

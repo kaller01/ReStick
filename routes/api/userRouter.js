@@ -5,4 +5,6 @@ const userController = require("../../controllers/userController");
 
 router.get("/randomize", userController.randomizeUsername);
 
+router.post("/", userController.newUsername);
+
 module.exports = router;

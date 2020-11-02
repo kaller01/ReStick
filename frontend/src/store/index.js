@@ -46,10 +46,11 @@ export default new Vuex.Store({
   },
   actions: {
     getUser({ commit, dispatch, state }) {
+      console.log('trying to get user')
       return new Promise((resolve, reject) => {
         axios
           .post(
-            state.host + "/auth/verify",
+            state.host + "/api/auth/verify",
             {},
             {
               headers: {

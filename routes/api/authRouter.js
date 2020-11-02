@@ -2,16 +2,14 @@ var express = require("express");
 var router = express.Router();
 const googleVerifier = require("google-id-token-verifier");
 const jwt = require("jsonwebtoken");
-const keys = require("../config/secret-keys");
-const User = require("../models/User");
-const Access = require("../models/Access");
-const Stack = require("../models/Stack");
+const keys = require("../../config/secret-keys");
+const User = require("../../models/User");
 const rug = require("random-username-generator");
-const auth = require("./middleware/auth.js");
+const auth = require("../middleware/auth.js");
 
 //Auth with google
 //You should never expose a google users id token, therefore a new JWT is created to ensure that the user token is protected
-router.post("/google", (req, res) => {
+router.post("/", (req, res) => {
   googleVerifier.verify(
     req.body.idToken,
     keys.google.clientID,
@@ -42,6 +40,13 @@ router.post("/google", (req, res) => {
 
           user = await user.save();
         }
+        const usernames = [
+          user.username,
+          rug.generate(),
+          rug.generate(),
+          rug.generate(),
+          rug.generate()
+        ]
         console.log(user);
         const id = user._id;
         const token = jwt.sign(
@@ -49,10 +54,13 @@ router.post("/google", (req, res) => {
             id,
             username: user.username,
             picture: user.picture,
+            usernames: usernames
           },
           keys.jwt
         );
-        res.send(token);
+        res.send({ token,
+        names: usernames
+        });
       }
     }
   );

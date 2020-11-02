@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 require('./Stack')
 
 const UserSchema = mongoose.Schema({
-    username: String,
+    name: String,
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
     googleID: {
         type: Number,
         required: true,
