@@ -13,8 +13,6 @@ var app = express();
 
 app.use(compression());
 
-// app.set('views', path.join(__dirname, 'views'));
-
 //This will send 301 if it hasnt changed since last request
 // app.disable('etag');
 
@@ -27,11 +25,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", auth, apiRouter);
 app.use("/auth", authRouter);
 
-// app.get('*', (req,res,next)=>{
-// console.log("Hello???")
-// res.sendFile(path.join(__dirname + 'public/index.html'));
-// res.sendFile('./public/index.html')
-// })
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -40,11 +33,7 @@ app.get("*", (req, res) => {
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   console.log("404 probably, should direct to vue");
-
-  // res.sendFile(path.join(__dirname + 'public/index.html'));
-  res.sendStatus(200);
-  // res.sendStatus(404);
-  // res.render('error');
+  res.sendStatus(404);
 });
 
 // error handler
