@@ -17,13 +17,11 @@
 - PUT: Update stack
 - DELETE: Delete stack
 
+**/api/stacks/:stackId/sub**
+- POST: Subscribe to card that isn't in stacks
+- PUT: Subscribe to card in stack
+- DELETE: Unsubscribe to card in stack
+
 ## User
-TODO
-
-### Subs
-**/api/user/subs**
-- GET: Get subscriptions
-
-**api/user/subs/:stackId**
-- POST: Subscribes to stack
-- DELETE: Unsubscribes to stack
+**/api/user/**
+- POST: Select username
