@@ -6,6 +6,7 @@ var router = express.Router();
 
 router.route("/").get(stack.getStacks).post(stack.newStack);
 
+router.get("/test", stack.findStacks, CardController.getCards);
 router
   .route("/:stackId")
   .get(stack.findAccessStack, stack.findPublicStack, stack.getStack)

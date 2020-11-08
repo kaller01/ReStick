@@ -27,7 +27,7 @@ const UserSchema = mongoose.Schema({
                 ref: 'stacks'
             }
         }
-    ]
+    ],
 })
 
 module.exports = mongoose.model('Users', UserSchema)

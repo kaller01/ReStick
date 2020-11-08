@@ -112,6 +112,20 @@ module.exports = {
     if (req.access.permission) next();
     else res.sendStatus(401);
   },
+  findStacks: async(req,res,next)=>{
+    //Multi layer populates are a bit more complicated, this does the trick
+    await req.user
+      .populate({
+        path: "stacks",
+        populate: {
+          path: "stack",
+        },
+      })
+      .execPopulate();
+
+    req.stacks = req.user.stacks;
+    next();
+  },
   addStack: async (req, res, next) => {
     const newAccess = {
       stack: req.stack,

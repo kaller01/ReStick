@@ -9,6 +9,7 @@
   "dependencies": {
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
+    "dayjs": "^1.9.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
@@ -23,6 +24,8 @@
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
-    "random-username-generator": "^1.0.4"
+    "random-username-generator": "^1.0.4",
+    "supermemo": "^2.0.15",
+    "supermemo2": "^1.1.0"
   }
 }
