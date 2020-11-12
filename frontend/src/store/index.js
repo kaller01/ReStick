@@ -12,8 +12,9 @@ export default new Vuex.Store({
     loading: true,
     stack: false,
     isLoggedIn: false,
-    host: "http://localhost:3000"
-    // host: ""
+    // host: "http://localhost:3000",
+    host: "",
+    repeats: false
   },
   mutations: {
     SET_USER(state, user) {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     SET_ISLOGGEDIN(state, value){
       state.isLoggedIn = value;
+    },
+    SET_REPEATS(state,value){
+      state.repeats = value;
     }
   },
   actions: {
@@ -86,11 +90,16 @@ export default new Vuex.Store({
         dispatch("getUser").then((response) => {
           console.log("First resolved", response);
           commit("SET_ISLOGGEDIN", true)
-          dispatch("getStacks").then((response) => {
+          Promise.all([dispatch("getStacks"), dispatch("getRepeats")]).then((response)=>{
             console.log("2nd resolved", response);
             resolve();
             commit("SET_LOADING", false);
           });
+          // dispatch("getStacks").then((response) => {
+            // console.log("2nd resolved", response);
+            // resolve();
+            // commit("SET_LOADING", false);
+          // });
         }).catch((error)=>{
           reject();
         });
@@ -109,10 +118,19 @@ export default new Vuex.Store({
         })
       });
     },
+    getRepeats({commit,state}){
+      return new Promise((resolve,reject)=>{
+        axios.get(state.host + "/api/user/spaced").then((response)=>{
+          commit("SET_REPEATS", response.data);
+          resolve(response.data);
+        })
+      })
+    },
     clearUser({commit}){
       commit("SET_USER", false);
       commit("SET_STACKS", false)
       commit("SET_STACK", false)
+      commit("SET_REPEATS", false)
     }
   },
   modules: {},

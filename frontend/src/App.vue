@@ -15,19 +15,13 @@
       <v-toolbar-title>ReStack</v-toolbar-title>
     </v-app-bar> -->
     <!-- <div class="spacers"></div> -->
-    <v-img gradient="to bottom right, #FAB325, #EA191C" height="100%" width="100%">
+    <!-- <v-img gradient="to bottom right, #FAB325, #EA191C" height="100%" width="100%"> -->
     <v-main class="background">
       <router-view></router-view>
     </v-main>
-    </v-img>
+    <!-- </v-img> -->
     <div class="spacers"></div>
-    <v-bottom-navigation
-      v-model="value"
-      background-color="white"
-      
-      shift
-      fixed
-    >
+    <v-bottom-navigation v-model="value" background-color="white" shift fixed>
       <v-btn x-large height="100%" to="/spaced">
         <span>Spaced</span>
 
@@ -67,24 +61,27 @@ export default {
           return "blue-grey";
       }
     },
-    isAuthed(){
-        if(localStorage.auth){
-            return true;
-        } else return false
+    isAuthed() {
+      if (localStorage.auth) {
+        return true;
+      } else return false;
     },
     ...mapState(["loading"]),
   },
 };
 </script>
 
-<style scoped>
+<style>
 .spacers {
   height: 56px;
 }
 
-
-.background {
-    /* background-image: "https://i.imgur.com/DZFku3D.jpg"; */
+#app {
+  background: rgb(250, 179, 37);
+  background: linear-gradient(
+    130deg,
+    rgba(250, 179, 37, 1) 0%,
+    rgba(234, 25, 28, 1) 100%
+  );
 }
 </style>
-

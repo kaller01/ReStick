@@ -3,20 +3,17 @@
     <v-container fill-height>
       <v-row align="center" justify="center">
         <v-col justify="center" align="center" cols="12">
-          <v-avatar size="200" style="z-index: 2; margin-top: 100px">
+          <v-avatar size="200" style="z-index: 2; margin-bottom: -75px">
             <v-img :src="user.picture" />
           </v-avatar>
 
           <v-card
             class="flex-column flex-end pt-12"
-            style="margin-top: -100px;"
             height="200"
           >
-            <br />
             <p class="display-1 text-center mt-12">{{ user.username }}</p>
           </v-card>
 
-          <br />
         </v-col>
         <v-col cols="12">
           <v-btn large block class="" @click="signOut()">

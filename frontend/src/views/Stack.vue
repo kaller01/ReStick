@@ -56,24 +56,29 @@
     </v-card>
     <v-container>
       <v-row>
-        <v-col v-if="stack.unknown">
-          <v-btn block @click="addStack">
-            Subscribe to stack
-          </v-btn>
+        <v-col cols="0" lg="4" class="pa-0 ma-0"></v-col>
+        <v-col cols="12" lg="4" class="py-0 my-0">
+          <v-row>
+            <v-col v-if="stack.unknown">
+              <v-btn block @click="addStack">
+                Subscribe to stack
+              </v-btn>
+            </v-col>
+            <v-col v-else>
+              <v-btn block @click="newCardDialog = true">
+                Add card
+              </v-btn>
+            </v-col>
+            <v-col
+              v-for="card in stack.cards"
+              v-bind:key="card._id"
+              cols="12"
+            >
+              <card :card="card" @click="openCard(card)" />
+            </v-col>
+          </v-row>
         </v-col>
-        <v-col v-else>
-          <v-btn block @click="newCardDialog = true">
-            Add card
-          </v-btn>
-        </v-col>
-        <v-col
-          v-for="card in stack.cards"
-          v-bind:key="card._id"
-          cols="12"
-          lg="4"
-        >
-          <card :card="card" @click="openCard(card)" />
-        </v-col>
+        <v-col cols="0" lg="4" class="pa-0 ma-0"></v-col>
       </v-row>
     </v-container>
     <v-dialog v-model="dialog">
@@ -133,7 +138,7 @@ export default {
     card,
   },
   computed: {
-    ...mapState(["stack", "user","host"]),
+    ...mapState(["stack", "user", "host"]),
   },
   data: () => ({
     dialog: false,
@@ -181,10 +186,7 @@ export default {
     saveCard(data) {
       axios
         .put(
-          this.host + "/api/stacks/" +
-            this.stack._id +
-            "/" +
-            this.card._id,
+          this.host + "/api/stacks/" + this.stack._id + "/" + this.card._id,
           data
         )
         .then((response) => {
@@ -195,10 +197,7 @@ export default {
     deleteCard() {
       axios
         .delete(
-          this.host + "/api/stacks/" +
-            this.stack._id +
-            "/" +
-            this.card._id
+          this.host + "/api/stacks/" + this.stack._id + "/" + this.card._id
         )
         .then((response) => {
           this.getStack(this.stack._id);
@@ -237,6 +236,10 @@ export default {
       this.card = card;
       this.cardDialog = true;
     },
+  },
+  created() {
+    if (!this.stack.unknown)
+      axios.patch(this.host + "/api/stacks/" + this.stack._id);
   },
 };
 </script>

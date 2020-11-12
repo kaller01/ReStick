@@ -1,4 +1,7 @@
 const Stack = require("../models/Stack");
+const Repeat = require("../models/Repeat");
+const { supermemo } = require("supermemo");
+const dayjs = require("dayjs");
 
 module.exports = {
   newStack: async (req, res) => {
@@ -34,7 +37,6 @@ module.exports = {
 
     res.send(req.user.stacks);
   },
-  //Sends one stack
   getStack: async (req, res) => {
     await req.stack.populate("cards").execPopulate();
     const stack = req.stack.toObject();
@@ -112,7 +114,7 @@ module.exports = {
     if (req.access.permission) next();
     else res.sendStatus(401);
   },
-  findStacks: async(req,res,next)=>{
+  findStacks: async (req, res, next) => {
     //Multi layer populates are a bit more complicated, this does the trick
     await req.user
       .populate({
@@ -135,7 +137,40 @@ module.exports = {
 
     req.user.stacks.push(newAccess);
     req.user.save();
-
-    res.sendStatus(201);
+    res.sendStatus(200)
+  },
+  updateRepeats: async (req, res, next) => {
+    let newCards = false;
+    req.stack.cards.forEach(async (card) => {
+      const exists = await Repeat.exists({
+        stack: req.stack,
+        card: card,
+        user: req.user,
+      });
+      if (!exists) {
+        addRepeat(card, req.stack, req.user);
+        newCards = true;
+      }
+    });
+    if (newCards) res.sendStatus(201);
+    else res.sendStatus(200);
   },
 };
+
+function addRepeat(card, stack, user) {
+  const newRepeat = new Repeat({
+    schedule: dayjs().format(),
+    repetition: {
+      interval: 0,
+      efactor: 2.5,
+      repetition: 0,
+    },
+    card,
+    stack,
+    user,
+  });
+
+  console.log(newRepeat);
+
+  newRepeat.save();
+}

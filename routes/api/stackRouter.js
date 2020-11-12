@@ -16,7 +16,8 @@ router
     CardController.newCard
   )
   .put(stack.findAccessStack, stack.continueIfPermission, stack.updateStack)
-  .delete(stack.findAccessStack, userController.leaveStack);
+  .delete(stack.findAccessStack, userController.leaveStack)
+  .patch(stack.findAccessStack, stack.updateRepeats);
 
 router
   .route("/:stackId/sub")

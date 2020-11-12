@@ -10,6 +10,6 @@ router.get("/randomize", userController.randomizeUsername);
 router.post("/", userController.newUsername);
 
 router.get("/spaced", stackController.findStacks, cardController.getTodaysCards)
-router.get("/spaced/:id", cardController.spaceCard)
+router.post("/spaced/:id/:grade", cardController.spaceCard)
 
 module.exports = router;
