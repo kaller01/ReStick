@@ -15,7 +15,7 @@
         them to collaborate together</span
       >
       <span class="white--text title">
-        0.2.1a
+        0.2.0a
       </span>
       <span class="white--text">
         App in development
