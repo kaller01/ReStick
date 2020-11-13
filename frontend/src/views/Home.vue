@@ -3,7 +3,7 @@
     <!-- <v-img src="https://i.imgur.com/DZFku3D.jpg" height="100%" width="100%"> -->
     <div class="d-flex flex-column align-center">
       <h1 class="display-4 white--text text-center mt-12 pa-12" width="100%">
-        ReStack
+        ReStick
       </h1>
       <v-btn large outlined dark x-large v-google-signin-button="clientId"
         >Continue with google</v-btn
@@ -14,6 +14,12 @@
         flashcards and start learning. Share your Stacks with friends or invite
         them to collaborate together</span
       >
+      <span class="white--text title">
+        0.2.1a
+      </span>
+      <span class="white--text">
+        App in development
+      </span>
     </div>
     <v-overlay v-model="show">
       <v-row>
