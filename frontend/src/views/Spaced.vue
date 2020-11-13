@@ -2,7 +2,7 @@
   <div>
     <v-toolbar color="white">
       <v-toolbar-title v-if="index >= 0"
-        >{{ repeats.length-index }} cards to due - {{repeat.stack.name}}</v-toolbar-title
+        >{{ repeats.length - index }} cards to due - {{repeat.stack.name}}</v-toolbar-title
       >
       <v-toolbar-title v-else>No cards due</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     test(direction) {
-      console.log("hello byeeee!");
       setTimeout(() => (this.isVisible = false), 200);
       setTimeout(() => {
         switch (direction) {
@@ -120,7 +119,9 @@ export default {
         this.index++;
         this.isFront = true;
         if (this.index < this.repeats.length) this.isVisible = true;
-        else this.index = -1;
+        else {
+          this.index = -2;
+        }
       }, 300);
     },
     compileMarkdown(md) {
@@ -128,7 +129,6 @@ export default {
       return DOMPurify.sanitize(html);
     },
     flip() {
-      console.log("HELLO???");
     },
   },
   created() {},

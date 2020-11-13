@@ -105,12 +105,13 @@ export default new Vuex.Store({
         });
       });
     },
-    getStack({ commit, state }, id) {
+    getStack({ commit, state, dispatch}, id) {
       if(!id) id = state.stack._id;
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
         axios.get(state.host + "/api/stacks/" + id).then((response) => {
           commit("SET_STACK", response.data);
+          dispatch("getRepeats")
           commit("SET_LOADING", false);
           resolve();
         }).catch((error)=>{

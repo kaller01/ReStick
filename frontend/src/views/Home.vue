@@ -57,7 +57,7 @@ export default {
     GoogleSignInButton,
   },
   computed: {
-    ...mapState(["host"]),
+    ...mapState(["host","user"]),
   },
   data: () => ({
     clientId:
@@ -99,6 +99,11 @@ export default {
     OnGoogleAuthFail(error) {
       console.log(error);
     },
+  },
+  created() {
+    if(localStorage.auth){
+      this.$router.push("/account");
+    }
   },
 };
 </script>
