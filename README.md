@@ -11,8 +11,8 @@ Repeats keeps track of when cards are to be repeated for learning.
 
 ## Auth
 **/api/auth**
-- POST: Sign up/in with google
-The token from google should be in the body as idToken.
+- POST: Sign up/in with google  
+The token from google should be in the body as idToken.  
 Return a JWT if valid.
 
 
