@@ -20,7 +20,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-card class="mx-auto" max-width="400" style="margin-top: -40px;">
+      <v-card class="mx-auto" max-width="500" style="margin-top: -40px;">
         <v-toolbar flat>
           <v-toolbar-title>
             {{ stack.name }}
@@ -69,11 +69,7 @@
                 Add card
               </v-btn>
             </v-col>
-            <v-col
-              v-for="card in stack.cards"
-              v-bind:key="card._id"
-              cols="12"
-            >
+            <v-col v-for="card in stack.cards" v-bind:key="card._id" cols="12">
               <card :card="card" @click="openCard(card)" />
             </v-col>
           </v-row>
@@ -81,7 +77,7 @@
         <v-col cols="0" lg="4" class="pa-0 ma-0"></v-col>
       </v-row>
     </v-container>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" max-width="800px">
       <stackDialog
         :stack="stack"
         title="Edit stack"
@@ -89,7 +85,7 @@
         @close="dialog = false"
       />
     </v-dialog>
-    <v-dialog v-model="newCardDialog" persistent>
+    <v-dialog v-model="newCardDialog" persistent max-width="800px">
       <card-dialog
         title="New Card"
         :card="newCard"
@@ -97,29 +93,29 @@
         @close="newCardDialog = false"
       ></card-dialog>
     </v-dialog>
-    <v-dialog persistent v-model="cardDialog">
-      <v-card class="my-3">
-        <v-card-actions>
-          <v-btn icon @click="cardDialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="editCardDialog = !editCardDialog">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
+    <v-dialog v-model="cardDialog" max-width="800px">
+          <v-card class="my-3">
+            <v-card-actions>
+              <v-btn icon @click="cardDialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn icon @click="editCardDialog = !editCardDialog">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
 
-          <v-btn icon @click="deleteCard">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <card v-if="!editCardDialog" :card="card"> </card>
-      <card-dialog
-        v-else
-        :card="card"
-        @save="saveCard"
-        @close="cardDialog = editCardDialog = false"
-      ></card-dialog>
+              <v-btn icon @click="deleteCard">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+          <card v-if="!editCardDialog" :card="card"> </card>
+          <card-dialog
+            v-else
+            :card="card"
+            @save="saveCard"
+            @close="cardDialog = editCardDialog = false"
+          ></card-dialog>
     </v-dialog>
   </div>
 </template>

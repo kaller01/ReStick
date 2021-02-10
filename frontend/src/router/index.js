@@ -43,6 +43,9 @@ const routes = [
     component: function() {
       return import(/* webpackChunkName: "spaced" */ "../views/Spaced.vue");
     },
+    beforeEnter: (to, from, next) => {
+      store.dispatch("getRepeats", to.params.stackId).then(next);
+    }
   },
 ];
 
@@ -68,12 +71,12 @@ router.beforeEach((to, from, next) => {
         console.log(storeInit);
         if(store.state.user && store.state.stacks)
         next();
-        else next("/")
+        else next({path: "/", query: {redirect: to.path}});
       })
       .catch((e) => {
         // Handle error
         console.log("Preload request failed");
-        next("/");
+        next({path: "/", query: {redirect: to.path}});
       });
   }
 });

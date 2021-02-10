@@ -57,7 +57,7 @@ export default {
     GoogleSignInButton,
   },
   computed: {
-    ...mapState(["host","user"]),
+    ...mapState(["host", "user"]),
   },
   data: () => ({
     clientId:
@@ -77,7 +77,9 @@ export default {
           localStorage.auth = response.data.token;
           console.log(response.data);
           this.usernames = response.data.names;
-          this.show = true;
+          this.chooseUsername(response.data.names[0]);
+          //TODO Change so you get to choose yourself, needs more data from db.
+          // this.show = true;
 
           // this.$store.dispatch("getUser").then((response)=>{
           // this.$router.push('/account')
@@ -92,16 +94,22 @@ export default {
         })
         .then((response) => {
           this.$store.dispatch("getUser").then((response) => {
-            this.$router.push("/account");
+            this.continueToApp();
           });
         });
     },
     OnGoogleAuthFail(error) {
       console.log(error);
     },
+    continueToApp() {
+      console.log(this.$route)
+      if (this.$route.query.redirect) {
+        this.$router.push(this.$route.query.redirect);
+      } else this.$router.push("/account");
+    },
   },
   created() {
-    if(localStorage.auth){
+    if (localStorage.auth) {
       this.$router.push("/account");
     }
   },

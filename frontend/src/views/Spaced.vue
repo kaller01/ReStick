@@ -37,9 +37,9 @@
                   </v-banner> -->
                   <div
                     class="pa-3"
-                    v-show="isFront"
                     v-html="compileMarkdown(repeat.card.front)"
                   ></div>
+                  <v-divider></v-divider>
                   <div
                     class="pa-3"
                     v-show="!isFront"
