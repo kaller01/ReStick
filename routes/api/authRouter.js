@@ -58,7 +58,8 @@ router.post("/", (req, res) => {
             picture: user.picture,
             usernames: usernames
           },
-          keys.jwt
+          keys.jwt,
+          { expiresIn: '120d' }
         );
         res.send({ token,
         names: usernames

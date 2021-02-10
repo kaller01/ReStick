@@ -1,5 +1,5 @@
 <template>
-      <v-card>
+      <v-card >
         <v-card-title>
           <span class="headline"
             >

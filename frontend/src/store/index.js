@@ -120,9 +120,11 @@ export default new Vuex.Store({
       });
     },
     getRepeats({commit,state}){
+      commit("SET_LOADING", true);
       return new Promise((resolve,reject)=>{
         axios.get(state.host + "/api/user/spaced").then((response)=>{
           commit("SET_REPEATS", response.data);
+          commit("SET_LOADING", false);
           resolve(response.data);
         })
       })
