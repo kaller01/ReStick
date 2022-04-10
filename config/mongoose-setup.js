@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const keys = require('./secret-keys')
-mongoose.connect(keys.mongodb.connect, {useNewUrlParser: true,autoIndex: true,});
+mongoose.connect(process.env.dbConnect, {useNewUrlParser: true,autoIndex: true, useUnifiedTopology: true});
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
