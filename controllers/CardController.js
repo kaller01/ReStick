@@ -2,6 +2,8 @@ const Card = require("../models/Card");
 const Repeat = require("../models/Repeat");
 const { supermemo } = require("supermemo");
 const dayjs = require("dayjs");
+var relativeTime = require('dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime)
 
 module.exports = {
   newCard: async (req, res, next) => {
@@ -12,9 +14,9 @@ module.exports = {
 
     const newRepeat = new Repeat({
       schedule: dayjs().format(),
-      repetition : {
-      interval: 0,
-      efactor: 2.5,
+      repetition: {
+        interval: 0,
+        efactor: 2.5,
         repetition: 0,
       },
       card: newCard,
@@ -103,6 +105,37 @@ module.exports = {
       res.send(cards);
     }
   },
+  getNext: async (req, res, next) => {
+    let ids = [];
+    let stackNames = [];
+    if (req.stacks) {
+      req.stacks.forEach((stack) => {
+        if (stack.subscribed) {
+          stack.stack.cards.forEach((id) => {
+            ids.push(id);
+            stackNames.push(stack.stack.name);
+          });
+        }
+      });
+
+      const repeats = await Repeat.find({
+        card: { $in: ids },
+        user: req.user,
+      }).sort("schedule");
+
+
+      const stats = new Array(dayjs(repeats.slice(-1)[0].schedule).diff(dayjs(), "day") + 1).fill(0);
+
+      for (const repeat of repeats) {
+        const days = (dayjs(repeat.schedule).diff(dayjs(), "day"))
+        stats[days]++;
+        console.log(dayjs(repeat.schedule).fromNow())
+      }
+
+      res.json({ stats, until: dayjs(repeats[0].schedule).fromNow() })
+    }
+  },
+
   spaceCard: async (req, res, next) => {
     const repeat = await Repeat.findById(req.params.id);
     repeat.repetition = supermemo(repeat.repetition, req.params.grade)

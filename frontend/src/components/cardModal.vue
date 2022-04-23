@@ -24,7 +24,6 @@
       ></v-textarea>
     </v-card-text>
     <v-card-actions>
-      <v-btn text @click="addimage">Insert image </v-btn>
       <v-spacer></v-spacer>
       <v-btn color="blue darken-1" text @click="close"> Close </v-btn>
       <v-btn color="blue darken-1" text @click="save"> Save </v-btn>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-toolbar color="white">
-      <v-toolbar-title v-if="index >= 0"
-        >{{ repeats.length - index }} cards to due -
+      <v-toolbar-title v-if="hasCards"
+        >{{ repeats.length + 1 }} cards to due -
         {{ repeat.stack.name }}</v-toolbar-title
       >
       <v-toolbar-title v-else>No cards due</v-toolbar-title>
@@ -21,7 +21,7 @@
         <v-col cols="12" lg="4">
           <v-row>
             <v-col cols="12" class="mb-0 pb-0">
-              <v-card :ripple="false" id="card">
+              <v-card :ripple="false" id="card" v-if="hasCards">
                 <!-- <v-banner class="gray headline"
                     >{{ repeat.stack.name }}
                   </v-banner> -->
@@ -43,15 +43,6 @@
 
                 <v-card-actions>
                   <v-row>
-                    <!-- <v-col cols="12" class="pb-0">
-                      <v-btn
-                        block
-                        v-show="isVisible && index >= 0"
-                        @click="isFront = !isFront"
-                      >
-                        <v-icon> mdi-rotate-3d-variant </v-icon>
-                      </v-btn>
-                    </v-col> -->
                     <v-col cols="12" class="py-0">
                       <v-row justify="space-around">
                         <v-col></v-col>
@@ -74,6 +65,26 @@
                   </v-row>
                 </v-card-actions>
               </v-card>
+              <v-card v-else>
+                <v-card-text>
+                  <span class="display-1">
+                    Next card {{ countdown.until }}
+                  </span>
+                  <br />
+                  Cards over coming days
+                  <v-sparkline
+                    :value="countdown.stats"
+                    :gradient="gradient"
+                    :smooth="radius || false"
+                    :padding="padding"
+                    :line-width="width"
+                    :stroke-linecap="lineCap"
+                    gradient-direction="top"
+                    type="trend"
+                    auto-draw
+                  ></v-sparkline>
+                </v-card-text>
+              </v-card>
             </v-col>
             <v-col cols="12" class="px-9"> </v-col>
           </v-row>
@@ -89,14 +100,14 @@
     <v-dialog v-model="helpDialog">
       <v-card class="pa-2">
         <!-- <v-card-text> -->
-          <p>5: perfect response.</p>
-          <p>4: correct response after a hesitation.</p>
-          <p>3: correct response recalled with serious difficulty.</p>
-          <p>
-            2: incorrect response; where the correct one seemed easy to recall.
-          </p>
-          <p>1: incorrect response; the correct one remembered.</p>
-          <p>0: complete blackout.</p>
+        <p>5: perfect response.</p>
+        <p>4: correct response after a hesitation.</p>
+        <p>3: correct response recalled with serious difficulty.</p>
+        <p>
+          2: incorrect response; where the correct one seemed easy to recall.
+        </p>
+        <p>1: incorrect response; the correct one remembered.</p>
+        <p>0: complete blackout.</p>
         <!-- </v-card-text> -->
       </v-card>
     </v-dialog>
@@ -109,40 +120,54 @@ import marked from "marked";
 import DOMPurify from "dompurify";
 import Axios from "axios";
 
+const gradients = [
+  ["#222"],
+  ["#42b3f4"],
+  ["red", "orange"],
+  ["purple", "violet"],
+  ["#00c6ff", "#F0F", "#FF0"],
+  ["#f72047", "#ffd200", "#1feaea"],
+];
+
 export default {
   data: () => ({
-    cards: ["A", "b", "ccc", "ddd", "hello world"],
-    failedCards: [],
-    index: -1,
-    isVisible: true,
     isFront: true,
     jsonDialog: false,
     helpDialog: false,
+    countdown: { until: "", stats: [] },
+    gradients,
+    width: 4,
+    radius: 2,
+    padding: 8,
+    lineCap: "round",
+    gradient: gradients[2],
+    labels: [],
+    repeat: false,
   }),
   components: {},
   computed: {
     ...mapState(["host", "repeats"]),
-    repeat() {
-      if (this.repeats.length == 0) this.index = -1;
-      if (this.repeats.length > 0 && this.index == -1) this.index = 0;
-      return this.repeats[this.index];
+    hasCards() {
+      if (this.repeats.length > 0) return true;
+      else if (this.repeat == false) return false;
+      else return this.repeats.length >= 0;
     },
   },
   methods: {
-    grade(grade) {
-      Axios.post(
+    async grade(grade) {
+      await Axios.post(
         process.env.VUE_APP_API +
           "/api/user/spaced/" +
           this.repeat._id +
           "/" +
           grade
       );
-      this.index++;
       this.isFront = true;
-      if (this.index < this.repeats.length) this.isVisible = true;
-      else {
-        this.index = -2;
-      }
+
+      if (this.repeats.length == 0) {
+        await this.getCountdown();
+        this.repeat = false;
+      } else this.repeat = this.repeats.pop();
     },
     compileMarkdown(md) {
       let html = marked(md);
@@ -160,8 +185,24 @@ export default {
       ];
       return colors[i];
     },
+    getCountdown() {
+      return Axios.get(
+        process.env.VUE_APP_API + "/api/user/spaced/countdown"
+      ).then((res) => {
+        this.countdown = res.data;
+        for (let i = 0; i < this.countdown.stats.length; i++) {
+          this.labels.push(i + "");
+        }
+      });
+    },
   },
-  created() {},
+  created() {
+    if (this.hasCards) {
+      this.repeat = this.repeats.pop();
+    } else {
+      this.getCountdown();
+    }
+  },
 };
 </script>
 

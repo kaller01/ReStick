@@ -12,4 +12,6 @@ router.post("/", userController.newUsername);
 router.get("/spaced", stackController.findStacks, cardController.getTodaysCards)
 router.post("/spaced/:id/:grade", cardController.spaceCard)
 
+router.get("/spaced/countdown", stackController.findStacks, cardController.getNext)
+
 module.exports = router;

@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/account~home~spaced~stack~stacks.9d6c810b.css"
   },
   {
-    "revision": "6f8e131dfebd4b36648e",
+    "revision": "44ccc5bc6ef9bc3fb2ea",
     "url": "/css/app.19d8485a.css"
   },
   {
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/chunk-vendors.498df0e7.css"
   },
   {
-    "revision": "516c89529431f7dccb98",
+    "revision": "51a7a68a1bba42e396df",
     "url": "/css/spaced.3df0b008.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/spaced~stack~stacks.778f6918.css"
   },
   {
-    "revision": "a9e7fdec2c0d785fef26",
+    "revision": "d1c5756033cf7e72a216",
     "url": "/css/stack.2c3921fa.css"
   },
   {
@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/stack~stacks.3e361247.css"
   },
   {
-    "revision": "49a297f18c2d8321a95120b341f750ec",
+    "revision": "d9708d1fc263f58e2ed1134b60095806",
     "url": "/index.html"
   },
   {
@@ -52,8 +52,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/account~home~spaced~stack~stacks.0b31aa5a.js"
   },
   {
-    "revision": "6f8e131dfebd4b36648e",
-    "url": "/js/app.8381dce7.js"
+    "revision": "44ccc5bc6ef9bc3fb2ea",
+    "url": "/js/app.a4b49809.js"
   },
   {
     "revision": "b6df049b9684d223bb82",
@@ -64,8 +64,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/home.e545e918.js"
   },
   {
-    "revision": "516c89529431f7dccb98",
-    "url": "/js/spaced.775f131a.js"
+    "revision": "51a7a68a1bba42e396df",
+    "url": "/js/spaced.f0d411c7.js"
   },
   {
     "revision": "ae1d1e833aeede03ff8b",
@@ -76,8 +76,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/spaced~stack~stacks.663ba7c9.js"
   },
   {
-    "revision": "a9e7fdec2c0d785fef26",
-    "url": "/js/stack.e22079fd.js"
+    "revision": "d1c5756033cf7e72a216",
+    "url": "/js/stack.0615e8ad.js"
   },
   {
     "revision": "47f1d6a45f30cf79e56a",
