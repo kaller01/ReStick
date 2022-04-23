@@ -39,10 +39,11 @@ export default new Vuex.Store({
     SET_STACK(state, stack) {
       state.stack = stack;
     },
-    SET_ISLOGGEDIN(state, value){
+    SET_ISLOGGEDIN(state, value) {
       state.isLoggedIn = value;
     },
-    SET_REPEATS(state,value){
+    SET_REPEATS(state, value) {
+      value.sort(() => Math.random() - 0.5);
       state.repeats = value;
     }
   },
@@ -52,7 +53,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios
           .post(
-            state.host + "/api/auth/verify",
+            process.env.VUE_APP_API + "/api/auth/verify",
             {},
             {
               headers: {
@@ -64,7 +65,7 @@ export default new Vuex.Store({
             axios.defaults.headers.common["Authorization"] = localStorage.auth;
             commit("SET_USER", response.data);
             resolve(response.data);
-          }).catch((error)=>{
+          }).catch((error) => {
             console.log(error)
             reject();
           })
@@ -72,7 +73,7 @@ export default new Vuex.Store({
     },
     getStacks({ commit, state }) {
       return new Promise((resolve, reject) => {
-        axios.get(state.host + "/api/stacks").then((response) => {
+        axios.get(process.env.VUE_APP_API + "/api/stacks").then((response) => {
           commit("SET_STACKS", response.data);
           resolve(response.data);
         });
@@ -88,46 +89,46 @@ export default new Vuex.Store({
         dispatch("getUser").then((response) => {
           console.log("First resolved", response);
           commit("SET_ISLOGGEDIN", true)
-          Promise.all([dispatch("getStacks"), dispatch("getRepeats")]).then((response)=>{
+          Promise.all([dispatch("getStacks"), dispatch("getRepeats")]).then((response) => {
             console.log("2nd resolved", response);
             resolve();
             commit("SET_LOADING", false);
           });
           // dispatch("getStacks").then((response) => {
-            // console.log("2nd resolved", response);
-            // resolve();
-            // commit("SET_LOADING", false);
+          // console.log("2nd resolved", response);
+          // resolve();
+          // commit("SET_LOADING", false);
           // });
-        }).catch((error)=>{
+        }).catch((error) => {
           reject();
         });
       });
     },
-    getStack({ commit, state, dispatch}, id) {
-      if(!id) id = state.stack._id;
+    getStack({ commit, state, dispatch }, id) {
+      if (!id) id = state.stack._id;
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        axios.get(state.host + "/api/stacks/" + id).then((response) => {
+        axios.get(process.env.VUE_APP_API + "/api/stacks/" + id).then((response) => {
           commit("SET_STACK", response.data);
           dispatch("getRepeats")
           commit("SET_LOADING", false);
           resolve();
-        }).catch((error)=>{
+        }).catch((error) => {
           console.log(error)
         })
       });
     },
-    getRepeats({commit,state}){
+    getRepeats({ commit, state }) {
       commit("SET_LOADING", true);
-      return new Promise((resolve,reject)=>{
-        axios.get(state.host + "/api/user/spaced").then((response)=>{
+      return new Promise((resolve, reject) => {
+        axios.get(process.env.VUE_APP_API + "/api/user/spaced").then((response) => {
           commit("SET_REPEATS", response.data);
           commit("SET_LOADING", false);
           resolve(response.data);
         })
       })
     },
-    clearUser({commit}){
+    clearUser({ commit }) {
       commit("SET_USER", false);
       commit("SET_STACKS", false)
       commit("SET_STACK", false)

@@ -14,12 +14,8 @@
         flashcards and start learning. Share your Stacks with friends or invite
         them to collaborate together</span
       >
-      <span class="white--text title">
-        0.2.0a
-      </span>
-      <span class="white--text">
-        App in development
-      </span>
+      <span class="white--text title"> 0.2.0a </span>
+      <span class="white--text"> App in development </span>
     </div>
     <v-overlay v-model="show">
       <v-row>
@@ -68,6 +64,7 @@ export default {
   methods: {
     OnGoogleAuthSuccess(idToken) {
       // Receive the idToken and make your magic with the backend
+      console.log(process.env.VUE_APP_API);
       axios
         .post(process.env.VUE_APP_API + "/api/auth/", {
           idToken,
@@ -102,7 +99,7 @@ export default {
       console.log(error);
     },
     continueToApp() {
-      console.log(this.$route)
+      console.log(this.$route);
       if (this.$route.query.redirect) {
         this.$router.push(this.$route.query.redirect);
       } else this.$router.push("/account");
