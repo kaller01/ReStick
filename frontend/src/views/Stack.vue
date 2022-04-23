@@ -93,7 +93,7 @@
         @close="newCardDialog = false"
       ></card-dialog>
     </v-dialog>
-    <v-dialog v-model="cardDialog" max-width="800px">
+    <v-dialog v-model="cardDialog" max-width="900px">
           <v-card class="my-3">
             <v-card-actions>
               <v-btn icon @click="cardDialog = false">
