@@ -106,12 +106,12 @@ export default {
         switch (direction) {
           case "left":
             Axios.post(
-              this.host + "/api/user/spaced/" + this.repeat._id + "/2"
+              process.env.VUE_APP_API + "/api/user/spaced/" + this.repeat._id + "/2"
             );
             break;
           case "right":
             Axios.post(
-              this.host + "/api/user/spaced/" + this.repeat._id + "/4"
+              process.env.VUE_APP_API + "/api/user/spaced/" + this.repeat._id + "/4"
             );
 
             break;

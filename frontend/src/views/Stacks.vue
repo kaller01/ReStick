@@ -110,7 +110,7 @@ export default {
         let data = this.newStack;
         console.log(data);
         axios
-          .post(this.host + "/api/stacks", data)
+          .post(process.env.VUE_APP_API + "/api/stacks", data)
           .then((response) => {
             this.dialog = false;
             this.getStacks().then((response) => {

@@ -69,7 +69,7 @@ export default {
     OnGoogleAuthSuccess(idToken) {
       // Receive the idToken and make your magic with the backend
       axios
-        .post(this.host + "/api/auth/", {
+        .post(process.env.VUE_APP_API + "/api/auth/", {
           idToken,
         })
         .then((response) => {
@@ -89,7 +89,7 @@ export default {
     },
     chooseUsername(name) {
       axios
-        .post(this.host + "/api/user", {
+        .post(process.env.VUE_APP_API + "/api/user", {
           username: name,
         })
         .then((response) => {

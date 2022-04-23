@@ -48,7 +48,7 @@ export default {
   }),
   methods: {
     randomize() {
-      axios.get(this.host + "/api/user/randomize").then((response) => {
+      axios.get(process.env.VUE_APP_API + "/api/user/randomize").then((response) => {
         this.$store.dispatch("getUser");
       });
     },

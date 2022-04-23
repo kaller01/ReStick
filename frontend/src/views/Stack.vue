@@ -151,7 +151,7 @@ export default {
     ...mapActions(["getStacks", "getStack"]),
     deleteStack() {
       axios
-        .delete(this.host + "/api/stacks/" + this.stack._id)
+        .delete(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id)
         .then((response) => {
           console.log("Deleted stack");
           this.getStacks().then((response) => {
@@ -162,7 +162,7 @@ export default {
     saveStack() {
       let data = this.stack;
       axios
-        .put(this.host + "/api/stacks/" + this.stack._id, data)
+        .put(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id, data)
         .then((response) => {
           this.getStacks();
           this.getStack(this.stack._id);
@@ -172,7 +172,7 @@ export default {
     saveNewCard(data) {
       console.log(data);
       axios
-        .post(this.host + "/api/stacks/" + this.stack._id, data)
+        .post(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id, data)
         .then((response) => {
           this.getStack(this.stack._id).then((response) => {
             this.newCardDialog = false;
@@ -182,7 +182,7 @@ export default {
     saveCard(data) {
       axios
         .put(
-          this.host + "/api/stacks/" + this.stack._id + "/" + this.card._id,
+          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/" + this.card._id,
           data
         )
         .then((response) => {
@@ -193,7 +193,7 @@ export default {
     deleteCard() {
       axios
         .delete(
-          this.host + "/api/stacks/" + this.stack._id + "/" + this.card._id
+          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/" + this.card._id
         )
         .then((response) => {
           this.getStack(this.stack._id);
@@ -202,7 +202,7 @@ export default {
     },
     subStack() {
       axios
-        .put(this.host + "/api/stacks/" + this.stack._id + "/sub")
+        .put(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStacks();
           this.getStack();
@@ -210,7 +210,7 @@ export default {
     },
     unsubStack() {
       axios
-        .delete(this.host + "/api/stacks/" + this.stack._id + "/sub")
+        .delete(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStack();
           this.getStacks();
@@ -218,7 +218,7 @@ export default {
     },
     addStack() {
       axios
-        .post(this.host + "/api/stacks/" + this.stack._id + "/sub")
+        .post(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub")
         .then((response) => {
           this.getStacks();
           this.getStack();
@@ -235,7 +235,7 @@ export default {
   },
   created() {
     if (!this.stack.unknown)
-      axios.patch(this.host + "/api/stacks/" + this.stack._id);
+      axios.patch(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id);
   },
 };
 </script>

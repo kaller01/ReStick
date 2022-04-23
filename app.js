@@ -4,6 +4,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const compression = require("compression");
 require("./config/mongoose-setup");
+const cors = require("cors");
 
 const apiRouter = require("./routes/api");
 
@@ -14,6 +15,7 @@ app.use(compression());
 //This will send 301 if it hasnt changed since last request
 // app.disable('etag');
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
