@@ -106,6 +106,7 @@ export default {
     },
   },
   created() {
+    console.log("Using api:" + process.env.VUE_APP_API);
     if (localStorage.auth) {
       this.$router.push("/account");
     }
