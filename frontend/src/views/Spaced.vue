@@ -71,7 +71,8 @@
                     Next card {{ countdown.until }}
                   </span>
                   <br />
-                  Cards over coming days
+                  Amount of cards per day from tomorrow and
+                  {{ countdown.stats.length }} days forward
                   <v-sparkline
                     :value="countdown.stats"
                     :gradient="gradient"
@@ -136,9 +137,9 @@ export default {
     helpDialog: false,
     countdown: { until: "", stats: [] },
     gradients,
-    width: 4,
-    radius: 2,
-    padding: 8,
+    width: 2,
+    radius: 0,
+    padding: 2,
     lineCap: "round",
     gradient: gradients[2],
     labels: [],
