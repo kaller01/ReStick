@@ -155,6 +155,21 @@ module.exports = {
     if (newCards) res.sendStatus(201);
     else res.sendStatus(200);
   },
+
+  resetRepeats: async (req, res, next) => {
+    const result = await Repeat.updateMany({
+      stack: req.stack,
+      user: req.user,
+    }, {
+      schedule: dayjs().format(),
+      repetition: {
+        interval: 0,
+        efactor: 2.5,
+        repetition: 0,
+      }
+    })
+    res.json(result);
+  },
 };
 
 function addRepeat(card, stack, user) {

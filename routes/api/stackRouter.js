@@ -6,7 +6,6 @@ var router = express.Router();
 
 router.route("/").get(stack.getStacks).post(stack.newStack);
 
-router.get("/test", stack.findStacks, CardController.getCards);
 router
   .route("/:stackId")
   .get(stack.findAccessStack, stack.findPublicStack, stack.getStack)
@@ -18,6 +17,8 @@ router
   .put(stack.findAccessStack, stack.continueIfPermission, stack.updateStack)
   .delete(stack.findAccessStack, userController.leaveStack)
   .patch(stack.findAccessStack, stack.updateRepeats);
+
+router.route("/:stackId/repeats").delete(stack.findAccessStack, stack.resetRepeats)
 
 router
   .route("/:stackId/sub")

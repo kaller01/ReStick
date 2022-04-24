@@ -8,19 +8,15 @@
         flat
       >
         <v-btn icon to="/stacks">
-          <v-icon>
-            mdi-arrow-left
-          </v-icon>
+          <v-icon> mdi-arrow-left </v-icon>
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn icon>
-          <v-icon>
-            mdi-share-variant
-          </v-icon>
+          <v-icon> mdi-share-variant </v-icon>
         </v-btn>
       </v-toolbar>
 
-      <v-card class="mx-auto" max-width="500" style="margin-top: -40px;">
+      <v-card class="mx-auto" max-width="500" style="margin-top: -40px">
         <v-toolbar flat>
           <v-toolbar-title>
             {{ stack.name }}
@@ -44,10 +40,12 @@
           >
             <v-icon>mdi-bell-off</v-icon>
           </v-btn>
+          <v-btn icon v-if="!stack.unknown" @click="resetRepeats">
+            <v-icon>mdi-restart</v-icon>
+          </v-btn>
           <v-btn icon v-if="!stack.unknown" @click="dialog = true">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-
           <v-btn icon v-if="!stack.unknown" @click="deleteStack">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
@@ -60,14 +58,10 @@
         <v-col cols="12" lg="4" class="py-0 my-0">
           <v-row>
             <v-col v-if="stack.unknown">
-              <v-btn block @click="addStack">
-                Subscribe to stack
-              </v-btn>
+              <v-btn block @click="addStack"> Subscribe to stack </v-btn>
             </v-col>
             <v-col v-else>
-              <v-btn block @click="newCardDialog = true">
-                Add card
-              </v-btn>
+              <v-btn block @click="newCardDialog = true"> Add card </v-btn>
             </v-col>
             <v-col v-for="card in stack.cards" v-bind:key="card._id" cols="12">
               <card :card="card" @click="openCard(card)" />
@@ -94,28 +88,28 @@
       ></card-dialog>
     </v-dialog>
     <v-dialog v-model="cardDialog" max-width="900px">
-          <v-card class="my-3">
-            <v-card-actions>
-              <v-btn icon @click="cardDialog = false">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn icon @click="editCardDialog = !editCardDialog">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
+      <v-card class="my-3">
+        <v-card-actions>
+          <v-btn icon @click="cardDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="editCardDialog = !editCardDialog">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
 
-              <v-btn icon @click="deleteCard">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-          <card v-if="!editCardDialog" :card="card"> </card>
-          <card-dialog
-            v-else
-            :card="card"
-            @save="saveCard"
-            @close="cardDialog = editCardDialog = false"
-          ></card-dialog>
+          <v-btn icon @click="deleteCard">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      <card v-if="!editCardDialog" :card="card"> </card>
+      <card-dialog
+        v-else
+        :card="card"
+        @save="saveCard"
+        @close="cardDialog = editCardDialog = false"
+      ></card-dialog>
     </v-dialog>
   </div>
 </template>
@@ -159,6 +153,15 @@ export default {
           });
         });
     },
+    resetRepeats() {
+      axios
+        .delete(
+          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/repeats"
+        )
+        .then((response) => {
+          console.log("Reseted repeats", response);
+        });
+    },
     saveStack() {
       let data = this.stack;
       axios
@@ -182,7 +185,11 @@ export default {
     saveCard(data) {
       axios
         .put(
-          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/" + this.card._id,
+          process.env.VUE_APP_API +
+            "/api/stacks/" +
+            this.stack._id +
+            "/" +
+            this.card._id,
           data
         )
         .then((response) => {
@@ -193,7 +200,11 @@ export default {
     deleteCard() {
       axios
         .delete(
-          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/" + this.card._id
+          process.env.VUE_APP_API +
+            "/api/stacks/" +
+            this.stack._id +
+            "/" +
+            this.card._id
         )
         .then((response) => {
           this.getStack(this.stack._id);
@@ -210,7 +221,9 @@ export default {
     },
     unsubStack() {
       axios
-        .delete(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub")
+        .delete(
+          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub"
+        )
         .then((response) => {
           this.getStack();
           this.getStacks();
@@ -218,7 +231,9 @@ export default {
     },
     addStack() {
       axios
-        .post(process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub")
+        .post(
+          process.env.VUE_APP_API + "/api/stacks/" + this.stack._id + "/sub"
+        )
         .then((response) => {
           this.getStacks();
           this.getStack();
