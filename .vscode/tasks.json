@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "frontend/",
+			"problemMatcher": [],
+			"label": "npm: dev - frontend",
+			"detail": "vue-cli-service serve"
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"detail": "node ./bin/www"
+		},
+		{
+			"label": "UPLOAD: restick.kallers.se",
+			"type": "shell",
+			"isBackground": true,
+			"dependsOn": [],
+			"linux": {
+			  "command": "cd ${workspaceFolder}/src/userprog/build && pintos --qemu -- -f -q"
+			},
+			"problemMatcher": []
+		  },
+	  
+	]
+}
