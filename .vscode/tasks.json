@@ -22,7 +22,7 @@
 			"isBackground": true,
 			"dependsOn": [],
 			"linux": {
-			  "command": "cd ${workspaceFolder}/src/userprog/build && pintos --qemu -- -f -q"
+			  "command": "cd .vscode/ && node sftpupload.js"
 			},
 			"problemMatcher": []
 		  },

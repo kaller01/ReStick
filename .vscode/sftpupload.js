@@ -28,11 +28,15 @@ sftp
           console.log("Uploaded: " + remotefile);
         } catch (error) {
           console.log("ERROR: " + remotefile);
-          // console.log(error);
+          console.log(error);
         }
       }
+
       sftp.end();
     });
+
+
+    
 
     // console.log(await sftp.list("./restick2"));
   });
