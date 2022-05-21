@@ -114,6 +114,10 @@ module.exports = {
     if (req.access.permission) next();
     else res.sendStatus(401);
   },
+  continueIfStack: (req, res, next) => {
+    if (req.stack) next();
+    else res.sendStatus(401);
+  },
   findStacks: async (req, res, next) => {
     //Multi layer populates are a bit more complicated, this does the trick
     await req.user

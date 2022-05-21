@@ -8,34 +8,37 @@ router.route("/").get(stack.getStacks).post(stack.newStack);
 
 router
   .route("/:stackId")
-  .get(stack.findAccessStack, stack.findPublicStack, stack.getStack)
+  .get(stack.findAccessStack, stack.findPublicStack, stack.continueIfStack, stack.getStack)
   .post(
     stack.findAccessStack,
+    stack.continueIfStack,
     stack.continueIfPermission,
     CardController.newCard
   )
-  .put(stack.findAccessStack, stack.continueIfPermission, stack.updateStack)
-  .delete(stack.findAccessStack, userController.leaveStack)
-  .patch(stack.findAccessStack, stack.updateRepeats);
+  .put(stack.findAccessStack, stack.continueIfStack, stack.continueIfPermission, stack.updateStack)
+  .delete(stack.findAccessStack, stack.continueIfStack, userController.leaveStack)
+  .patch(stack.findAccessStack, stack.continueIfStack, stack.updateRepeats);
 
-router.route("/:stackId/repeats").delete(stack.findAccessStack, stack.resetRepeats)
+router.route("/:stackId/repeats").delete(stack.findAccessStack, stack.continueIfStack, stack.resetRepeats)
 
 router
   .route("/:stackId/sub")
-  .post(stack.findPublicStack, stack.addStack)
-  .put(stack.findAccess, stack.sub)
-  .delete(stack.findAccess, stack.unSub);
+  .post(stack.findPublicStack, stack.continueIfStack, stack.addStack)
+  .put(stack.findAccess, stack.continueIfStack, stack.sub)
+  .delete(stack.findAccess, stack.continueIfStack, stack.unSub);
 
 router
   .route("/:stackId/:cardId")
   .delete(
     stack.findAccessStack,
+    stack.continueIfStack,
     stack.continueIfPermission,
     CardController.findCard,
     CardController.deleteCard
   )
   .put(
     stack.findAccessStack,
+    stack.continueIfStack,
     stack.continueIfPermission,
     CardController.findCard,
     CardController.updateCard
