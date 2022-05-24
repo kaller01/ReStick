@@ -24,8 +24,8 @@ router.route("/:stackId/repeats").delete(stack.findAccessStack, stack.continueIf
 router
   .route("/:stackId/sub")
   .post(stack.findPublicStack, stack.continueIfStack, stack.addStack)
-  .put(stack.findAccess, stack.continueIfStack, stack.sub)
-  .delete(stack.findAccess, stack.continueIfStack, stack.unSub);
+  .put(stack.findAccess, stack.sub)
+  .delete(stack.findAccess, stack.unSub);
 
 router
   .route("/:stackId/:cardId")
